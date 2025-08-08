@@ -39,6 +39,12 @@
 </head>
 
 <body class="starter-page-page">
+<nav>
+    <!-- 기존 메뉴 -->
+    <a href="{% url 'cart_detail' %}">
+        🛒 장바구니 (<span id="cart-count">{{ cart_item_count }}</span>)
+    </a>
+</nav>
 
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container position-relative d-flex align-items-center justify-content-between">
