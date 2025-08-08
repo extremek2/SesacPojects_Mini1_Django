@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>🛒 장바구니</h1>
+<table>
+    <thead>
+        <tr>
+            <th>상품</th>
+            <th>수량</th>
+            <th>가격</th>
+            <th>합계</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price }}원</td>
+            <td>{{ item.total_price }}원</td>
+            <td><a href="{% url 'cart_remove' item.product.id %}">삭제</a></td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3">총합계:</td>
+            <td colspan="2">{{ cart.get_total_price }}원</td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

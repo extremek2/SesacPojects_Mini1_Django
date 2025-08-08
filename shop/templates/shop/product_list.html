@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for product in products %}
+    <div>
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.price }}원</p>
+        <a href="{% url 'cart_add' product.id %}">장바구니에 담기</a>
+    </div>
+{% endfor %}
+</body>
+</html>
