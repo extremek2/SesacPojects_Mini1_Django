@@ -1,3 +1,4 @@
+{% load socialaccount %}
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -72,8 +73,9 @@
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
+            {#로그인진입시 구글어서로 연결#}
+      <a class="btn-getstarted" href="{% provider_login_url 'google' %}">Login</a>
 
-      <a class="btn-getstarted" href="/login">Login</a>
 
     </div>
   </header>

@@ -6,6 +6,5 @@ def index(request):
 
 def starter(request):
     return render(request, 'single_pages/starter-page.html')
-
 def login(request):
     return render(request, 'single_pages/login.html')
