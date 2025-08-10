@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 #회원가입
-def signup_(request, messages=None):
+def signup_(request,messages=None):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')

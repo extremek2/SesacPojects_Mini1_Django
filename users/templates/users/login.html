@@ -9,8 +9,19 @@
     {% csrf_token %}
         <input type="text" name="username" placeholder="아이디" required><br>
         <input type="password" name="password" placeholder="비밀번호" required><br>
-        <button class="btn-success" type="submit">로그인</button>
+
+        <button class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px" type="submit">
+            로그인
+        </button>
+        <a class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px;color: black">
+            또는
+        </a>
+
     </form>
 </div>
+
+        <button class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px;">
+            <a style="color: black" href="/users/signup/" >회원가입</a>
+        </button>
 
 {% include 'single_pages/footer.html' %}
