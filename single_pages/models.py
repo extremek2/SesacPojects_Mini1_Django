@@ -4,7 +4,6 @@ from django.db import models
 # Create your models here.
 
 
-
 class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100,unique=True,allow_unicode=True)
@@ -44,3 +43,6 @@ class Comment(models.Model):
                                         null=True)
     def __str__(self):
         return (f'{self.author.username} -- {self.content}')
+
+
+
