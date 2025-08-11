@@ -19,7 +19,13 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+<<<<<<< HEAD
     path('main/', include('single_pages.urls')),
     # path('accounts/', include('allauth.urls')),구글어서용 패스 일단 주석처리해놓음
     path('users/', include('users.urls')),#로그인시 users앱 url로 이동
+=======
+    path('', include('single_pages.urls')),
+    path('products/', include('products.urls')),
+    path('recipes/', include('recipes.urls')),
+>>>>>>> 75ef0826d348d763c4d198e25418daefeffab6eb
 ]
