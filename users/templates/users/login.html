@@ -10,19 +10,24 @@
         <input type="text" name="username" placeholder="ID" required><br>
         <input type="password" name="password" placeholder="pw" required><br>
 
-        <button class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px" type="submit">
+    <div class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px;">
+        <button type="submit" class="btn btn-outline-dark">
             로그인
         </button>
-        <a class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px;color: black">
-            또는
-        </a>
+    </div>
+    <a class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px;color: black">
+        또는
+    </a>
 
     </form>
 </div>
-</div>
 
-        <button class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px;">
-            <a style="color: black" href="/users/signup/" >회원가입</a>
-        </button>
+
+    <div class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px;">
+        <a href="/users/signup/" class="btn btn-outline-dark">
+            회원가입
+        </a>
+    </div>
+
 
 {% include 'single_pages/footer.html' %}

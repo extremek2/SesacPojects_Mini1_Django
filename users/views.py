@@ -1,18 +1,17 @@
-from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 #회원가입
-def signup_(request,messages=None):
+def signup_(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
 
         if password != password2:
-            from django.contrib import messages
             messages.error(request, 'Passwords do not match')
             return redirect('signup')
 
@@ -21,10 +20,9 @@ def signup_(request,messages=None):
             return redirect('signup')
 
         user = User.objects.create_user(username=username, password=password)
-        messages.success(request, 'Successfully created user')
         return redirect('login')
 
-    return render(request,'users/signup.html')
+    return render(request, 'users/signup.html')
 
 #로그인
 def login_(request):
