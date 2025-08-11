@@ -25,8 +25,12 @@ def seller_login(request):
 def seller_signup(request):
     if request.method == 'POST':
         username = request.POST.get('username')
+        sellerName = request.POST.get('sellerName')
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
+        store_name = request.POST.get('store_name')
+        phone_number = request.POST.get('phone_number')
+        address = request.POST.get('address')
 
         if password != password2:
             messages.error(request, '비밀번호가 일치하지 않습니다')
@@ -36,7 +40,14 @@ def seller_signup(request):
             messages.error(request, '이미 존재하는 판매자 아이디입니다')
             return redirect('seller_signup')
 
-        Seller.objects.create(username=username, password=password)
+        Seller.objects.create(
+            username=username,
+            sellerName=sellerName,
+            password=password,
+            store_name=store_name,
+            phone_number=phone_number,
+            address=address
+        )
         return redirect('seller_login')
 
     return render(request, 'seller/seller_signup.html')
