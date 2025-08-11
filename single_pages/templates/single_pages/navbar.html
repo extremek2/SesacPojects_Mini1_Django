@@ -1,10 +1,10 @@
 {% load socialaccount %}
-    <div class="container position-relative d-flex align-items-center justify-content-between">
 
-      <a href="/main/" class="logo d-flex align-items-center me-auto me-xl-0">
+    <div class="container position-relative d-flex align-items-center justify-content-between">
+      <a href="/main/" class="logo d-flex align-items-center me-auto me-xl-0" >
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1 class="sitename">맛있는 국산야채</h1>
+        <h1 class="sitename">착한농장몰</h1>
         <span>.</span>
       </a>
 
@@ -41,13 +41,14 @@
 
         <ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </ul>
       </nav>
 
         {% if user.is_authenticated %}
             <a>{{ request.user.username }}님. 환영합니다</a>
             <a class="btn-outline-primary" href="{% url 'logout' %}">Logout</a>
         {% else %}
-            <a class="btn-getstarted" href="{% url 'login' %}">Login</a>
+            <a class="btn-getstarted" style="background-color: yellowgreen" href="{% url 'login' %}">Login</a>
         {% endif %}
 
     </div>
