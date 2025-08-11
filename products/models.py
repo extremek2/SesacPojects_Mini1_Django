@@ -1,5 +1,7 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from seller.models import Seller
+
 
 # Create your models here.
 #상품클래스
@@ -8,9 +10,9 @@ class Products(models.Model):
     price = models.IntegerField()
     quantity = models.IntegerField()
     uploaded_image = models.ImageField(upload_to='media/', blank=True, null=True)
-    # seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
+    username = models.ForeignKey(Seller, on_delete=models.CASCADE)
     def __str__(self):
-        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity}'
+        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity}- 판매자ID{self.username}'
                 #  - 판매자{self.seller}
 
 class SeasonalProducts(models.Model):
