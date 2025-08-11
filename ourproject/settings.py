@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'single_pages',
-<<<<<<< HEAD
+
     'users',
 
     'django.contrib.sites',
@@ -46,10 +46,10 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-=======
+
     'products',
     'recipes',
->>>>>>> 75ef0826d348d763c4d198e25418daefeffab6eb
+
 ]
 
 MIDDLEWARE = [
