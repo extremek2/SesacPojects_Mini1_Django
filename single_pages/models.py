@@ -3,14 +3,6 @@ from django.db import models
 
 # Create your models here.
 
-#상품클래스
-class products(models.Model):
-    name = models.CharField(max_length=100)
-    price = models.IntegerField()
-    quantity = models.IntegerField()
-    seller = models.ForeignKey(User, on_delete=models.CASCADE)
-    def __str__(self):
-        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity} - 판매자{self.seller}'
 
 
 class Category(models.Model):
