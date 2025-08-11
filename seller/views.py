@@ -1,6 +1,9 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from products.models import Products
+from .forms import ProductForm
 from .models import Seller
+
 
 # Create your views here.
 #판매자 로그인
@@ -52,14 +55,31 @@ def seller_signup(request):
 
     return render(request, 'seller/seller_signup.html')
 
-#판매자 상세페이지용
+# #판매자 상세페이지용
+# def seller_dashboard(request):
+#     seller_id = request.session.get('seller_id')
+#     if not seller_id:
+#         return redirect('seller_login')
+#
+#     seller = Seller.objects.get(id=seller_id)
+#     return render(request, 'seller/dashboard.html', {'seller': seller})
+
+
 def seller_dashboard(request):
     seller_id = request.session.get('seller_id')
     if not seller_id:
         return redirect('seller_login')
 
     seller = Seller.objects.get(id=seller_id)
-    return render(request, 'seller/dashboard.html', {'seller': seller})
+
+    # 판매자가 등록한 상품들 조회
+    products = Products.objects.filter(username=seller)
+
+    return render(request, 'seller/dashboard.html', {
+        'seller': seller,
+        'products': products  # 상품 리스트도 템플릿에 전달
+    })
+
 
 #f판매자 로그아웃
 def seller_logout(request):
@@ -67,3 +87,16 @@ def seller_logout(request):
     if 'seller_id' in request.session:
         del request.session['seller_id']
     return redirect('seller_login')
+
+
+def seller_upload(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('seller_dashboard')  # 등록 후 이동할 페이지
+    else:
+        form = ProductForm()
+    return render(request, 'seller/seller_upload.html', {'form': form})
+
+

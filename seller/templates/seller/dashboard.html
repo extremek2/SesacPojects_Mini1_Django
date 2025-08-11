@@ -13,10 +13,29 @@
         <li>전화번호: {{ seller.phone_number }}</li>
         <li>주소: {{ seller.address }}</li>
     </ul>
+    <hr>
+
+    <h3>판매자가 등록한 상품 목록</h3>
+<ul>
+    {% for product in products %}
+        <li>
+            <strong>{{ product.name }}</strong><br>
+            가격: {{ product.price }}<br>
+            수량: {{ product.quantity }}<br>
+            {% if product.uploaded_image %}
+                이미지: <img src="{{ product.uploaded_image.url }}" alt="{{ product.name }}" width="100"><br>
+            {% endif %}
+        </li>
+        <hr>
+    {% empty %}
+        <li>등록된 상품이 없습니다.</li>
+    {% endfor %}
+</ul>
+
 
     <hr>
 
-    <a>상품등록</a>
+    <a href="/seller/seller_upload/">상품등록</a>
 
     <hr>
 

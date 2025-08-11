@@ -12,8 +12,9 @@ class Products(models.Model):
     uploaded_image = models.ImageField(upload_to='media/', blank=True, null=True)
     username = models.ForeignKey(Seller, on_delete=models.CASCADE)
     def __str__(self):
-        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity}- 판매자ID{self.username}'
+        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity} 판매자ID[{self.username}]'
                 #  - 판매자{self.seller}
+
 
 class SeasonalProducts(models.Model):
     # 식품번호
