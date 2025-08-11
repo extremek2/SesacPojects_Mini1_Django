@@ -24,6 +24,9 @@
             수량: {{ product.quantity }}<br>
             {% if product.uploaded_image %}
                 이미지: <img src="{{ product.uploaded_image.url }}" alt="{{ product.name }}" width="100"><br>
+
+                <p>{{ product.uploaded_image.url }}</p>
+
             {% endif %}
         </li>
         <hr>

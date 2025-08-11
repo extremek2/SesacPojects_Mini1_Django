@@ -55,16 +55,7 @@ def seller_signup(request):
 
     return render(request, 'seller/seller_signup.html')
 
-# #판매자 상세페이지용
-# def seller_dashboard(request):
-#     seller_id = request.session.get('seller_id')
-#     if not seller_id:
-#         return redirect('seller_login')
-#
-#     seller = Seller.objects.get(id=seller_id)
-#     return render(request, 'seller/dashboard.html', {'seller': seller})
-
-
+#판매자 대시보드
 def seller_dashboard(request):
     seller_id = request.session.get('seller_id')
     if not seller_id:
@@ -88,7 +79,7 @@ def seller_logout(request):
         del request.session['seller_id']
     return redirect('seller_login')
 
-
+#판매자 상품 업로드
 def seller_upload(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)

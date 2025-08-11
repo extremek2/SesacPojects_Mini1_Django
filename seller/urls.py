@@ -1,9 +1,5 @@
 from django.urls import path
 from . import views
-from django.conf import settings
-from django.conf.urls.static import static
-
-
 
 urlpatterns = [
     path('seller_signup/',views.seller_signup,name='seller_signup'),
@@ -13,5 +9,3 @@ urlpatterns = [
     path('seller_upload/', views.seller_upload, name='seller_upload'),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
