@@ -1,79 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>상품등록사이트</title>
-</head>
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Index - Yummy Bootstrap Template</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
-
-  <!-- Favicons -->
-  <link href="../../static/assets/img/favicon.png" rel="icon">
-  <link href="../../static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
+  <meta charset="UTF-8">
+  <title>판매자 회원가입</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link href="../../static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../../static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="../../static/assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="../../static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="../../static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <style>
 
-  <!-- Main CSS File -->
-  <link href="../../static/assets/css/main.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: Yummy
-  * Template URL: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/
-  * Updated: Aug 07 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+      body {
+  background-color: #fffaf0;
+  font-family: 'Inter', sans-serif;
+  padding: 0;
+}
+
+.form-container {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin: 40px auto;
+}
+    label {
+      color: #5c3d00;
+      font-weight: 600;
+      margin-top: 15px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ffb347;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #f77f00;
+      color: white;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 20px;
+      width: 100%;
+    }
+    h2 {
+      text-align: center;
+      color: #5c3d00;
+      font-size: 36px;
+      margin-bottom: 30px;
+    }
+    #footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffb347;
+  padding: 15px;
+  text-align: center;
+  z-index: 100;
+}
+  </style>
 </head>
-<header id="header" class="header d-flex align-items-center sticky-top">
+<body>
+<header id="header" class="header d-flex align-items-center sticky-top" style="background-color: #ffb347;">
 {% include 'single_pages/navbar.html' %}
 </header>
-<body>
-    <h2>상품 등록</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
+  <div class="form-container">
+      <h2>상품 등록 🧺</h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
 
-    <div>
-        <label>상품이름:</label>
-        {{ form.name }}
+        <div>
+          <label for="name">상품 이름</label>
+          {{ form.name }}
+        </div>
+
+        <div>
+          <label for="price">가격 (개당)</label>
+          {{ form.price }}
+        </div>
+
+        <div>
+          <label for="quantity">수량</label>
+          {{ form.quantity }}
+        </div>
+
+        <div>
+          <label for="uploaded_image">상품 이미지</label>
+          {{ form.uploaded_image }}
+        </div>
+
+        <div>
+          <label for="username">판매자 이름</label>
+          {{ form.username }}
+        </div>
+
+        <button type="submit">등록하기</button>
+      </form>
     </div>
-
-    <div>
-        <label>가격(개):</label>
-        {{ form.price }}
-    </div>
-
-    <div>
-        <label>수량:</label>
-        {{ form.quantity }}
-    </div>
-
-    <div>
-        <label>상품이미지:</label>
-        {{ form.uploaded_image }}
-    </div>
-
-    <div>
-        <label>판매자:</label>
-        {{ form.username }}
-    </div>
-
-    <button type="submit">등록하기</button>
-</form>
-
 </body>
 {% include 'single_pages/footer.html' %}
 </html>
