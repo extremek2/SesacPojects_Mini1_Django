@@ -47,6 +47,17 @@
         {% else %}
             <a class="btn-getstarted" href="{% url 'login' %}">Login</a>
         {% endif %}
+    <!--새로 추가한부분-->
+    <li class="nav-item">
+          <a class="btn btn-outline-secondary position-relative" href="{% url 'cart' %}">
+            <i class="bi bi-cart3"></i> 장바구니
+            {% if request.session.cart %}
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ request.session.cart|length }}
+                <span class="visually-hidden">items</span>
+              </span>
+            {% endif %}
+
 
     </div>
     <!-- Vendor JS Files -->
