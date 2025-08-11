@@ -27,5 +27,6 @@ urlpatterns = [
     path('', include('single_pages.urls')),
     path('products/', include('products.urls')),
     path('recipes/', include('recipes.urls')),
+    path('seller/', include('seller.urls')),
 
 ]
