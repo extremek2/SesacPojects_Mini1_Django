@@ -1,8 +1,19 @@
 {% extends 'products/base.html' %}
 {% block main-area %}
 
+
 {{ product.name }}
 {{ product.price }}
 {{ product.quantity }}
+
+
+
+{% if post.category %}
+    <a class="badge bg-secondary text-decoration-none link-light" href="#!">
+        {{ post.category.name }}
+    </a>
+{% else %}
+  <a class="badge bg-secondary text-decoration-none link-light" href="#!">미분류</a>
+{% endif %}
 
 {% endblock %}
