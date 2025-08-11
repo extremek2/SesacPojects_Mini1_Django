@@ -1,0 +1,33 @@
+{% include 'single_pages/navbar.html' %}
+
+<h2 class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px">
+    customerlogin
+</h2>
+<div class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px">
+
+    <form method="post">
+    {% csrf_token %}
+        <input type="text" name="username" placeholder="ID" required><br>
+        <input type="password" name="password" placeholder="pw" required><br>
+
+    <div class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px;">
+        <button type="submit" class="btn btn-outline-dark">
+            로그인
+        </button>
+    </div>
+    <a class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px;color: black">
+        또는
+    </a>
+
+    </form>
+</div>
+
+
+    <div class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px;">
+        <a href="/users/signup/" class="btn btn-outline-dark">
+            회원가입
+        </a>
+    </div>
+
+
+{% include 'single_pages/footer.html' %}

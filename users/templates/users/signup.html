@@ -1,0 +1,29 @@
+{% include 'single_pages/navbar.html' %}
+
+<h2 class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px">
+    회원가입
+</h2>
+
+{% if messages %}
+  <ul>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+
+<div class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px">
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="아이디" required><br>
+    <input type="password" name="password" placeholder="비밀번호" required><br>
+    <input type="password" name="password2" placeholder="비밀번호 확인" required><br>
+    <div class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px;">
+        <button type="submit" class="btn btn-outline-dark">
+            가입하기
+        </button>
+    </div>
+</form>
+</div>
+{% include 'single_pages/footer.html' %}
