@@ -1,6 +1,7 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from seller.models import Seller
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -30,6 +31,22 @@ class Products(models.Model):
     def get_absolute_url(self):
         return f'/products/{self.pk}/'
 
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    address = models.CharField(max_length=100)
+    payment_method = models.CharField(max_length=10)
+    created_at = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return f'{self.user} - {self.address} - {self.paymentmethod} - {self.created_at}'
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    def __str__(self):
+        return f'{self.quantity} x {self.product.name} in Order {self.order.id}'
 
 
 class SeasonalProducts(models.Model):

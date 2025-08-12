@@ -1,0 +1,12 @@
+{% extends 'products/base.html' %}
+{% load static %}
+{% block main-area %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">저장</button>
+</form>
+
+<p>주문: {{ order.id }}</p>
+{% endblock %}

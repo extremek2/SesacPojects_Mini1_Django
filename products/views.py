@@ -1,5 +1,10 @@
-from django.shortcuts import render
-from .models import SeasonalProducts, Products, Category
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic.edit import FormView, CreateView
+from django.urls import reverse_lazy
+from django.forms import modelformset_factory
+from .models import SeasonalProducts, Products, Category, Order, OrderItem
+from .forms import OrderItemForm
+
 
 def products_index(request):
     products = Products.objects.all()
@@ -34,4 +39,22 @@ def detail(request, pk):
                   context={'product': product,
                            'categories': categories})
 
+class OrderItemCreateView(CreateView):
+    model = OrderItem
+    fields = ['order', 'product', 'quantity'] # Specify the fields to be included in the form
+    template_name = 'your_app/orderitem_form.html' # Path to your template
+    success_url = reverse_lazy('order_detail') # URL to redirect after successful creation (e.g., order detail page)
 
+    # Optional: Override form_valid to handle additional logic, like setting the order
+    def form_valid(self, form):
+        # Example: If the Order is determined by the URL or session
+        # form.instance.order = Order.objects.get(pk=self.kwargs['order_pk'])
+        return super().form_valid(form)
+
+
+# def manage_order_items(request, order_id):
+#     order = Order.objects.get(pk=order_id)
+#     OrderItemFormSet = modelformset_factory(OrderItem, fields=('product', 'quantity'))
+#
+#     # Filter OrderItems belonging to the specific order
+#     formset = OrderItemFormSet(queryset=OrderItem.objects.filter(order=order))

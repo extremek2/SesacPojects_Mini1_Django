@@ -7,7 +7,6 @@ urlpatterns = [
     path('',views.products_index,name='products_index'),
     path('<int:pk>/',views.detail,name='products_detail'),
     path('category/<slug>/', views.category, name='category'),
-
-
+    path('orderitems/new/', views.OrderItemCreateView.as_view(), name='orderitem_create'),
 ]
 
