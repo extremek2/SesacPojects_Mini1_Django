@@ -25,7 +25,7 @@ class Products(models.Model):
     quantity = models.IntegerField()
     uploaded_image = models.ImageField(upload_to='products/', blank=True, null=True)
     def __str__(self):
-        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity} 판매자ID[{self.seller}]'
+        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity} 판매자ID[{self.seller}] - 카테고리{self.category}'
                 #  - 판매자{self.seller}
     def get_absolute_url(self):
         return f'/products/{self.pk}/'
