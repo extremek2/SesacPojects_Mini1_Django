@@ -59,6 +59,7 @@
               <img src="{{ product.uploaded_image.url }}" alt="{{ product.name }}" class="img-fluid mb-3 rounded">
             {% endif %}
             <p><strong>상품명:</strong> {{ product.name }}</p>
+            <p><strong>품명:</strong> {{ product.category }}</p>
             <p><strong>가격:</strong> {{ product.price }}</p>
             <p><strong>수량:</strong> {{ product.quantity }}</p>
           </div>
@@ -76,6 +77,11 @@
               <div class="mb-3">
                 <label for="id_name" class="form-label">상품명</label>
                 {{ form.name }}
+              </div>
+
+              <div class="mb-3">
+                <label for="id_category">품명</label>
+                {{ form.category }}
               </div>
 
               <div class="mb-3">
@@ -105,6 +111,7 @@
             <div class="border p-3 rounded bg-light">
               <img id="preview-image" src="#" alt="미리보기" class="img-fluid rounded d-none mb-3" />
               <p><strong>상품명:</strong> <span id="preview-name">-</span></p>
+              <p><strong>품명:</strong> <span id="preview-category">-</span></p>
               <p><strong>가격:</strong> <span id="preview-price">-</span></p>
               <p><strong>수량:</strong> <span id="preview-quantity">-</span></p>
             </div>

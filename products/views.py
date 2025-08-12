@@ -8,7 +8,8 @@ def products_index(request):
     return render(request, 'products/foody2_product.html',
                   context={'products': products,
                            'seasonal_products': seasonal_products,
-                           'categories': categories})
+                           'categories': categories
+                           })
 
 def category(request, slug):
     categories = Category.objects.all()
