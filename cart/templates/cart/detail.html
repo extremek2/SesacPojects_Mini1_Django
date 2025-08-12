@@ -4,6 +4,55 @@
     <meta charset="UTF-8">
     <title>cart</title>
     <style>
+        /*팝업버튼*/
+        .popup-overlay{
+            display:none;
+            position:fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .popup {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 400px;
+            max-height: 80%;
+            overflow-y: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .popup h3 {
+            margin-top: 0;
+        }
+
+        .popup label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .popup input, .popup select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        .popup-buttons {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .popup-buttons button {
+            padding: 8px 16px;
+            margin-left: 10px;
+        }
+
+
+        /*장바구니 스타일*/
         body {
             font-family:'Arial', sans-serif;
             padding:30px;
@@ -76,24 +125,90 @@
                 <th>삭제</th>
             </tr>
         </thead>
+
         <tbody>
             {% for item in cart_itmes %}
             <tr>
-                <td><img src="{{ item.image }}" alt="상품" class="product-image"></td>
+                <td><img src="{{ item.image_url }}" alt="상품" class="product-image"></td>
                 <td>{{ item.name }}</td>
                 <td>₩{{ item.price }}</td>
                 <td><input type="number" value="{{ item.quantity }}" min="1"></td>
-                <td>₩{{ item.price|add:"0"|floatformat:0 }} × {{ item.quantity }}</td>
+                <td>₩{{ item.total_price }}</td>
                 <td><button class="delete-btn">삭제</button></td>
             </tr>
             {%  endfor %}
         </tbody>
     </table>
-
+<!--결제 버튼-->
     <div class="checkout">
         <p><strong>총 금액: ₩10,000</strong></p>
-        <button class="checkout-btn">결제하기</button>
+        <button class="checkout-btn" onclick="openPopup()">결제하기</button>
     </div>
+
+<!--  팝업 영역 -->
+<div class="popup-overlay" id="paymentPopup">
+    <div class="popup">
+        <h3> 결제창</h3>
+
+        <div id="popupItems">
+            <!-- 상품 목록을 JS로 채워넣을 예정 -->
+        </div>
+
+        <label for="address">배송지 주소:</label>
+        <input type="text" id="address" placeholder="주소를 입력하세요">
+
+        <label for="paymentMethod">결제 수단:</label>
+        <select id="paymentMethod">
+            <option value="card">신용카드</option>
+            <option value="bank">무통장 입금</option>
+            <option value="kakao">카카오페이</option>
+        </select>
+
+        <div class="popup-buttons">
+            <button onclick="closePopup()">취소</button>
+            <button onclick="submitOrder()">주문하기</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openPopup() {
+        // 팝업 열기
+        document.getElementById("paymentPopup").style.display = "flex";
+
+        // 상품 정보 복사해서 보여주기
+        const rows = document.querySelectorAll("tbody tr");
+        const popupItems = document.getElementById("popupItems");
+        popupItems.innerHTML = "<strong>선택한 상품:</strong><ul>";
+
+        rows.forEach(row => {
+            const name = row.children[1].innerText;
+            const quantity = row.children[3].querySelector('input').value;
+            popupItems.innerHTML += `<li>${name} - ${quantity}개</li>`;
+        });
+
+        popupItems.innerHTML += "</ul>";
+    }
+
+    function closePopup() {
+        document.getElementById("paymentPopup").style.display = "none";
+    }
+
+    function submitOrder() {
+        const address = document.getElementById("address").value;
+        const method = document.getElementById("paymentMethod").value;
+
+        if (!address) {
+            alert("주소를 입력해주세요!");
+            return;
+        }
+
+        // 실제 주문 처리 로직은 서버와 연결 필요
+        alert(`주문 완료!\n배송지: ${address}\n결제수단: ${method}`);
+        closePopup();
+    }
+</script>
+
 
 </body>
 
