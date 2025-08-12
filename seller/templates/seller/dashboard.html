@@ -1,21 +1,149 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <title>판매자 대시보드</title>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>판매자 대시보드</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="../../static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Inter', sans-serif;
+      padding: 40px;
+      color: #343a40;
+    }
+
+    .dashboard-header {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #212529;
+    }
+
+    .dashboard-header h1 {
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      color: #495057;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 30px;
+    }
+
+    ul li {
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .product-card {
+      background-color: #ffffff;
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .product-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+
+    .product-card h5 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .product-card p {
+      margin-bottom: 6px;
+      font-size: 15px;
+      color: #6c757d;
+    }
+
+    .btn-custom {
+      background-color: #0d6efd;
+      color: white;
+      font-weight: 600;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-block;
+      margin: 10px 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-custom:hover {
+      background-color: #0b5ed7;
+    }
+
+    .text-center {
+      margin-top: 40px;
+    }
+  </style>
 </head>
+<header id="header" class="header d-flex align-items-center sticky-top" style="background-color: #ffb347;">
+{% include 'single_pages/navbar.html' %}
+</header>
 <body>
+  <div class="dashboard-header">
     <h1>환영합니다, {{ seller.sellerName }}님!</h1>
+  </div>
 
-    <h3>판매자 정보</h3>
-    <ul>
-        <li>아이디: {{ seller.username }}</li>
-        <li>매장 이름: {{ seller.store_name }}</li>
-        <li>전화번호: {{ seller.phone_number }}</li>
-        <li>주소: {{ seller.address }}</li>
-    </ul>
+  <h3 class="section-title">판매자 정보</h3>
+  <ul>
+    <li><strong>아이디:</strong> {{ seller.username }}</li>
+    <li><strong>매장 이름:</strong> {{ seller.store_name }}</li>
+    <li><strong>전화번호:</strong> {{ seller.phone_number }}</li>
+    <li><strong>주소:</strong> {{ seller.address }}</li>
+  </ul>
 
-    <hr>
+  <h3 class="section-title">등록된 상품 목록</h3>
+  <div class="container">
+    <div class="row gy-4">
+      {% for product in products %}
+        <div class="col-md-3 col-sm-6">
+          <div class="product-card">
+            {% if product.uploaded_image %}
+              <img src="{{ product.uploaded_image.url }}" alt="{{ product.name }}">
+            {% endif %}
+            <h5>{{ product.name }}</h5>
+            <p>가격: {{ product.price }}</p>
+            <p>수량: {{ product.quantity }}</p>
+          </div>
+        </div>
+      {% empty %}
+        <p class="text-muted">등록된 상품이 없습니다.</p>
+      {% endfor %}
+    </div>
+  </div>
 
-    <a href="{% url 'seller_logout' %}">로그아웃</a>
+  <div class="text-center">
+    <a href="/seller/seller_upload/" class="btn-custom">상품 등록</a>
+  </div>
 </body>
+{% include 'single_pages/footer.html' %}
 </html>

@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,9 +26,13 @@ urlpatterns = [
     # path('accounts/', include('allauth.urls')),구글어서용 패스 일단 주석처리해놓음
     path('users/', include('users.urls')),#로그인시 users앱 url로 이동
 
-    path('', include('single_pages.urls')),
+    # path('', include('single_pages.urls')),
     path('products/', include('products.urls')),
     path('recipes/', include('recipes.urls')),
     path('seller/', include('seller.urls')),
+    path('landingpages/', include('landingpages.urls')),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

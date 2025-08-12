@@ -1,6 +1,7 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from django_extensions.db.fields import AutoSlugField
+
+from seller.models import Seller
 
 # Create your models here.
 
@@ -19,13 +20,14 @@ class Products(models.Model):
     category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, blank=True)
     price = models.IntegerField()
     quantity = models.IntegerField()
-    uploaded_image = models.ImageField(upload_to='media/', blank=True, null=True)
-    # seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
+    uploaded_image = models.ImageField(upload_to='products/', blank=True, null=True)
+    username = models.ForeignKey(Seller, on_delete=models.CASCADE)
     def __str__(self):
-        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity}'
+        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity} 판매자ID[{self.username}]'
                 #  - 판매자{self.seller}
     def get_absolute_url(self):
         return f'/products/{self.pk}/'
+
 
 
 class SeasonalProducts(models.Model):
