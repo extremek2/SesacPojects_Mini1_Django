@@ -1,21 +1,20 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+
 from seller.models import Seller
-from django_extensions.db.fields import AutoSlugField
 
 # Create your models here.
 
 class Category(models.Model):
-    itemcategorycode = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(1000)])
-    itemcategoryname = models.CharField(max_length=10)
-    itemcode = models.IntegerField(unique=True,
-                                   validators=[MinValueValidator(1), MaxValueValidator(1000)])
+    itemcode = models.IntegerField(unique=True)
     itemname = models.CharField(max_length=20)
-    # slug = models.SlugField(max_length=100,
-    #                         unique=True,
-    #                         allow_unicode=True)
+    itemcategorycode = models.IntegerField()
+    itemcategoryname = models.CharField(max_length=10)
+    slug = models.SlugField(max_length=100,
+                            unique=True,
+                            allow_unicode=True)
     def __str__(self):
-        return f'{self.name} - {self.slug}'
+        return f'{self.itemname}'
     def get_category_url(self):
         return f'/products/category/{self.slug}'
 
@@ -27,7 +26,7 @@ class Products(models.Model):
     uploaded_image = models.ImageField(upload_to='products/', blank=True, null=True)
     username = models.ForeignKey(Seller, on_delete=models.CASCADE)
     def __str__(self):
-        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity} 판매자ID[{self.username}]'
+        return f'이름:{self.name} - 가격:{self.price} - 수량:{self.quantity} - 판매자ID:[{self.username} ]'
                 #  - 판매자{self.seller}
     def get_absolute_url(self):
         return f'/products/{self.pk}/'

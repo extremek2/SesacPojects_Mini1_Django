@@ -12,6 +12,8 @@ def products_index(request):
 
 def category(request, slug):
     categories = Category.objects.all()
+    # for category in categories:
+
     if slug == "no_category":
         products = Products.objects.filter(category=None)
     else:
