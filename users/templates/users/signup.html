@@ -1,9 +1,11 @@
+<!DOCTYPE html>
+<html lang="ko">
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Index - Yummy Bootstrap Template</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <title>회원가입 - Yummy</title>
+  <meta name="description" content="Yummy 회원가입 페이지">
+  <meta name="keywords" content="Yummy, 회원가입, 고객, 레스토랑">
 
   <!-- Favicons -->
   <link href="../../static/assets/img/favicon.png" rel="icon">
@@ -12,7 +14,7 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="../../static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -24,52 +26,176 @@
   <!-- Main CSS File -->
   <link href="../../static/assets/css/main.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: Yummy
-  * Template URL: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/
-  * Updated: Aug 07 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8f9fa;
+      color: #343a40;
+    }
+
+    h2 {
+      font-weight: 600;
+      font-size: 28px;
+      margin-top: 80px;
+      text-align: center;
+      color: #212529;
+    }
+
+    .signup-container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      max-width: 480px;
+      width: 100%;
+      margin: 30px auto;
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: #495057;
+    }
+
+    .form-control {
+      border: 1px solid #ced4da;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 16px;
+    }
+
+    .form-control:focus {
+      border-color: #0d6efd;
+      box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    }
+
+    .btn-signup-submit {
+      background-color: #0d6efd;
+      color: #ffffff;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: 2px solid #000000;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-signup-submit:hover {
+      background-color: #0b5ed7;
+    }
+
+    #footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffb347;
+      padding: 15px;
+      text-align: center;
+      z-index: 100;
+    }
+
+    .message-list {
+      list-style: none;
+      padding: 0;
+      text-align: center;
+      color: #d9534f;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
 </head>
-<header id="header" class="header d-flex align-items-center sticky-top" style="background-color: #fff8dc;">
-{% include 'single_pages/navbar.html' %}
-</header>
 
-<h2 class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px">
-    signup
-</h2>
+<body>
+  <header id="header" class="header d-flex align-items-center sticky-top" style="background-color: #fff8dc;">
+    {% include 'single_pages/navbar.html' %}
+  </header>
 
-{% if messages %}
-  <ul style="list-style: none; padding: 0; text-align: center; color: #d9534f; font-weight: bold;">
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
+  <h2>회원가입</h2>
 
-<div class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 20px; background-color: #fff8dc; padding: 40px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 500px;">
-  <form method="post" style="width: 100%;">
-    {% csrf_token %}
-    <div class="mb-3">
-      <label for="username" class="form-label" style="color: #6b4f3b;">아이디</label>
-      <input type="text" name="username" class="form-control" placeholder="아이디" required style="border: 1px solid #d2b48c;">
+  {% if messages %}
+    <ul class="message-list">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <div class="signup-container">
+    <form method="post" id="signupForm">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="username" class="form-label">아이디</label>
+        <input type="text" name="username" id="username" class="form-control" placeholder="아이디" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">비밀번호</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="비밀번호" required>
+      </div>
+      <div class="mb-3">
+        <label for="password2" class="form-label">비밀번호 확인</label>
+        <input type="password" name="password2" id="password2" class="form-control" placeholder="비밀번호 확인" required>
+      </div>
+      <div class="d-flex justify-content-center mt-4">
+        <button type="button" class="btn btn-signup-submit" data-bs-toggle="modal" data-bs-target="#termsModal">
+          가입하기
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- 약관 동의 모달 -->
+  <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="termsModalLabel">약관 동의</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="term1">
+            <label class="form-check-label" for="term1">
+              [필수] 서비스 이용 약관에 동의합니다.
+            </label>
+          </div>
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="term2">
+            <label class="form-check-label" for="term2">
+              [필수] 개인정보 처리방침에 동의합니다.
+            </label>
+          </div>
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="term3">
+            <label class="form-check-label" for="term3">
+              [필수] 마케팅 정보 수신에 동의합니다.
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+          <button type="button" class="btn btn-primary" onclick="submitIfAgreed()">확인</button>
+        </div>
+      </div>
     </div>
-    <div class="mb-3">
-      <label for="password" class="form-label" style="color: #6b4f3b;">비밀번호</label>
-      <input type="password" name="password" class="form-control" placeholder="비밀번호" required style="border: 1px solid #d2b48c;">
-    </div>
-    <div class="mb-3">
-      <label for="password2" class="form-label" style="color: #6b4f3b;">비밀번호 확인</label>
-      <input type="password" name="password2" class="form-control" placeholder="비밀번호 확인" required style="border: 1px solid #d2b48c;">
-    </div>
+  </div>
 
-    <div class="d-flex justify-content-center" style="margin-top: 20px;">
-      <button type="submit" class="btn" style="background-color: #a3c49b; color: white; font-weight: bold;">
-        가입하기
-      </button>
-    </div>
-  </form>
-</div>
+  {% include 'single_pages/footer.html' %}
 
-{% include 'single_pages/footer.html' %}
+  <!-- Bootstrap JS -->
+  <script src="../../static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- 약관 체크 확인 스크립트 -->
+  <script>
+    function submitIfAgreed() {
+      const term1 = document.getElementById('term1').checked;
+      const term2 = document.getElementById('term2').checked;
+      const term3 = document.getElementById('term3').checked;
+
+      if (term1 && term2 && term3) {
+        document.getElementById('signupForm').submit();
+      } else {
+        alert('모든 약관에 동의해야 회원가입이 가능합니다.');
+      }
+    }
+  </script>
+</body>
+</html>

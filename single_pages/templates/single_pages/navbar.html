@@ -43,13 +43,18 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </ul>
       </nav>
+{% if user.is_authenticated %}
+    {% if is_seller %}
+        <a>{{ request.user.username }} 판매자님. 환영합니다</a>
+        <a href="{% url 'seller_logout' %}" class="btn-custom">판매자 로그아웃</a>
+    {% else %}
+        <a>{{ request.user.username }} 고객님. 환영합니다</a>
+        <a href="{% url 'logout' %}" class="btn-outline-primary">고객 로그아웃</a>
+    {% endif %}
+{% else %}
+    <a class="btn-getstarted" style="background-color: yellowgreen" href="{% url 'login' %}">Login</a>
+{% endif %}
 
-        {% if user.is_authenticated %}
-            <a>{{ request.user.username }}님. 환영합니다</a>
-            <a class="btn-outline-primary" href="{% url 'logout' %}">Logout</a>
-        {% else %}
-            <a class="btn-getstarted" style="background-color: yellowgreen" href="{% url 'login' %}">Login</a>
-        {% endif %}
 
     </div>
     <!-- Vendor JS Files -->

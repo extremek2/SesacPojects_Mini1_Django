@@ -1,99 +1,202 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>판매자 회원가입</title>
+
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
   <link href="../../static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
   <style>
-
-
-      body {
-  background-color: #fffaf0;
-  font-family: 'Inter', sans-serif;
-  padding: 0;
-}
-
-.form-container {
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  max-width: 600px;
-  margin: 40px auto;
-}
-    label {
-      color: #5c3d00;
-      font-weight: 600;
-      margin-top: 15px;
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
     }
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ffb347;
-      border-radius: 5px;
-    }
-    button {
-      background-color: #f77f00;
-      color: white;
-      font-weight: bold;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      margin-top: 20px;
-      width: 100%;
-    }
+
     h2 {
       text-align: center;
       color: #5c3d00;
-      font-size: 36px;
+      font-size: 32px;
+      margin-top: 80px;
       margin-bottom: 30px;
     }
+
+    .form-container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto 60px auto;
+    }
+
+    label {
+      color: #495057;
+      font-weight: 500;
+      margin-top: 15px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      margin-top: 5px;
+      border: 1px solid #ced4da;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #f77f00;
+      box-shadow: 0 0 0 0.2rem rgba(247, 127, 0, 0.25);
+      outline: none;
+    }
+
+    button {
+      background-color: #f77f00;
+      color: white;
+      font-weight: 600;
+      padding: 12px;
+      border: 2px solid #000000;
+      border-radius: 8px;
+      margin-top: 30px;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e76f00;
+    }
+
     #footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #ffb347;
-  padding: 15px;
-  text-align: center;
-  z-index: 100;
-}
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffb347;
+      padding: 15px;
+      text-align: center;
+      z-index: 100;
+    }
   </style>
 </head>
+
 <body>
-<header id="header" class="header d-flex align-items-center sticky-top" style="background-color: #ffb347;">
-{% include 'single_pages/navbar.html' %}
-</header>
+  <header id="header" class="header d-flex align-items-center sticky-top" style="background-color: #fff8dc;">
+    {% include 'single_pages/navbar.html' %}
+  </header>
+
+  <!-- ✅ 메시지 팝업 영역 -->
+  {% if messages %}
+    <div id="messagePopup" class="alert alert-warning alert-dismissible fade show" role="alert" style="position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 9999; width: 80%; max-width: 600px;">
+      {% for message in messages %}
+        {{ message }}
+      {% endfor %}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endif %}
+
+  <h2>판매자 회원가입</h2>
+
   <div class="form-container">
-    <h2>판매자 회원가입 🥕 </h2>
-    <form method="POST">
+    <form method="POST" id="sellerSignupForm">
       {% csrf_token %}
-      <label>아이디:</label>
-      <input type="text" name="username" required>
+      <label for="username">아이디</label>
+      <input type="text" name="username" id="username" required>
 
-      <label>비밀번호:</label>
-      <input type="password" name="password" required>
+      <label for="password">비밀번호</label>
+      <input type="password" name="password" id="password" required>
 
-      <label>비밀번호 확인:</label>
-      <input type="password" name="password2" required>
+      <label for="password2">비밀번호 확인</label>
+      <input type="password" name="password2" id="password2" required>
 
-      <label>판매자 이름:</label>
-      <input type="text" name="sellerName" required>
+      <label for="sellerName">판매자 이름</label>
+      <input type="text" name="sellerName" id="sellerName" required>
 
-      <label>매장 이름:</label>
-      <input type="text" name="store_name">
+      <label for="store_name">매장 이름</label>
+      <input type="text" name="store_name" id="store_name">
 
-      <label>전화번호:</label>
-      <input type="text" name="phone_number">
+      <label for="phone_number">전화번호</label>
+      <input type="text" name="phone_number" id="phone_number">
 
-      <label>주소:</label>
-      <textarea name="address" rows="3"></textarea>
+      <label for="address">주소</label>
+      <textarea name="address" id="address" rows="3"></textarea>
 
-      <button type="submit">회원가입</button>
+      <button type="button" data-bs-toggle="modal" data-bs-target="#termsModal">회원가입</button>
     </form>
   </div>
+
+  <!-- 판매자 약관 동의 모달 -->
+  <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="termsModalLabel">판매자 약관 동의</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="term1">
+            <label class="form-check-label" for="term1">
+              [필수] 판매자 이용 약관에 동의합니다.
+            </label>
+          </div>
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="term2">
+            <label class="form-check-label" for="term2">
+              [필수] 수수료 및 정산 정책에 동의합니다.
+            </label>
+          </div>
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="term3">
+            <label class="form-check-label" for="term3">
+              [필수] 상품 등록 및 운영 규정에 동의합니다.
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+          <button type="button" class="btn btn-primary" onclick="submitIfAgreed()">확인</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'single_pages/footer.html' %}
+
+  <!-- Bootstrap JS -->
+  <script src="../../static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- 약관 체크 확인 스크립트 -->
+  <script>
+    function submitIfAgreed() {
+      const term1 = document.getElementById('term1').checked;
+      const term2 = document.getElementById('term2').checked;
+      const term3 = document.getElementById('term3').checked;
+
+      if (term1 && term2 && term3) {
+        document.getElementById('sellerSignupForm').submit();
+      } else {
+        alert('모든 약관에 동의해야 회원가입이 가능합니다.');
+      }
+    }
+
+    // 메시지 팝업 자동 닫힘
+    window.addEventListener('DOMContentLoaded', () => {
+      const popup = document.getElementById('messagePopup');
+      if (popup) {
+        setTimeout(() => {
+          popup.classList.remove('show');
+          popup.classList.add('hide');
+        }, 3000);
+      }
+    });
+  </script>
 </body>
-{% include 'single_pages/footer.html' %}
 </html>

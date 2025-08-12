@@ -1,36 +1,37 @@
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from products.models import Products
 from .forms import ProductForm
 from .models import Seller
 
-
-# Create your views here.
-#판매자 로그인
+# 판매자 로그인
 def seller_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        try:
-            seller = Seller.objects.get(username=username)
-            if seller.password == password:
-                request.session['seller_id'] = seller.id
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            try:
+                seller = Seller.objects.get(user=user)
+                login(request, user)
                 return redirect('seller_dashboard')
-            else:
-                messages.error(request, '비밀번호가 틀렸습니다')
-        except Seller.DoesNotExist:
-            messages.error(request, '존재하지 않는 판매자입니다')
+            except Seller.DoesNotExist:
+                messages.error(request, '판매자 계정이 아닙니다')
+        else:
+            messages.error(request, '아이디 또는 비밀번호가 틀렸습니다')
 
     return render(request, 'seller/seller_login.html')
 
-#판매자 회원가입
+# 판매자 회원가입
 def seller_signup(request):
     if request.method == 'POST':
         username = request.POST.get('username')
-        sellerName = request.POST.get('sellerName')
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
+        sellerName = request.POST.get('sellerName')
         store_name = request.POST.get('store_name')
         phone_number = request.POST.get('phone_number')
         address = request.POST.get('address')
@@ -39,14 +40,14 @@ def seller_signup(request):
             messages.error(request, '비밀번호가 일치하지 않습니다')
             return redirect('seller_signup')
 
-        if Seller.objects.filter(username=username).exists():
-            messages.error(request, '이미 존재하는 판매자 아이디입니다')
+        if User.objects.filter(username=username).exists():
+            messages.error(request, '이미 존재하는 아이디입니다')
             return redirect('seller_signup')
 
+        user = User.objects.create_user(username=username, password=password)
         Seller.objects.create(
-            username=username,
+            user=user,
             sellerName=sellerName,
-            password=password,
             store_name=store_name,
             phone_number=phone_number,
             address=address
@@ -55,39 +56,46 @@ def seller_signup(request):
 
     return render(request, 'seller/seller_signup.html')
 
-#판매자 대시보드
+# 판매자 대시보드
 def seller_dashboard(request):
-    seller_id = request.session.get('seller_id')
-    if not seller_id:
+    if not request.user.is_authenticated:
         return redirect('seller_login')
 
-    seller = Seller.objects.get(id=seller_id)
+    try:
+        seller = Seller.objects.get(user=request.user)
+    except Seller.DoesNotExist:
+        return redirect('seller_login')
 
-    # 판매자가 등록한 상품들 조회
     products = Products.objects.filter(username=seller)
 
     return render(request, 'seller/dashboard.html', {
         'seller': seller,
-        'products': products  # 상품 리스트도 템플릿에 전달
+        'products': products
     })
 
-
-#f판매자 로그아웃
+# 판매자 로그아웃
 def seller_logout(request):
-    # 세션에서 seller_id 삭제
-    if 'seller_id' in request.session:
-        del request.session['seller_id']
+    logout(request)
     return redirect('seller_login')
 
-#판매자 상품 업로드
+# 판매자 상품 업로드
 def seller_upload(request):
+    if not request.user.is_authenticated:
+        return redirect('seller_login')
+
+    try:
+        seller = Seller.objects.get(user=request.user)
+    except Seller.DoesNotExist:
+        return redirect('seller_login')
+
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('seller_dashboard')  # 등록 후 이동할 페이지
+            product = form.save(commit=False)
+            product.username = seller  # 판매자 연결
+            product.save()
+            return redirect('seller_dashboard')
     else:
         form = ProductForm()
+
     return render(request, 'seller/seller_upload.html', {'form': form})
-
-

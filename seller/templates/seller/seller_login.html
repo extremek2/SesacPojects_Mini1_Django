@@ -1,73 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-      <style>
-        #footer {
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          background-color: #ffb347;
-          padding: 15px;
-          text-align: center;
-          z-index: 100;
-        }
-</style>
-</head>
-
-<body>
-<header id="header" class="header d-flex align-items-center sticky-top" style="background-color: #ffb347;">
-{% include 'single_pages/navbar.html' %}
-</header>
-
-<h2 class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 10px">
-    seller login
-</h2>
-<div class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 20px; background-color: #fffaf0; padding: 40px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 500px;">
-  <form method="post" style="width: 100%;">
-    {% csrf_token %}
-    <div class="mb-3">
-      <label for="username" class="form-label" style="color: #5c3d00;">아이디</label>
-      <input type="text" name="username" class="form-control" placeholder="ID" required style="border: 1px solid #ffb347;">
-    </div>
-    <div class="mb-3">
-      <label for="password" class="form-label" style="color: #5c3d00;">비밀번호</label>
-      <input type="password" name="password" class="form-control" placeholder="PW" required style="border: 1px solid #ffb347;">
-    </div>
-
-    <div class="d-flex justify-content-center" style="margin-top: 20px;">
-      <button type="submit" class="btn" style="background-color: #f77f00; color: white; font-weight: bold;">
-        로그인
-      </button>
-    </div>
-
-    <div class="d-flex justify-content-center" style="margin-top: 15px; color: #5c3d00;">
-      또는
-    </div>
-  </form>
-</div>
-
-<div class="container position-relative d-flex align-items-center justify-content-center" style="margin-top: 20px;">
-  <a href="/seller/seller_signup/" class="btn" style="background-color: #ffb347; color: white; font-weight: bold;">
-    회원가입
-  </a>
-</div>
-
-
-
-
-
-
-
-
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Index - Yummy Bootstrap Template</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <title>판매자 로그인 - Yummy</title>
+  <meta name="description" content="Yummy 판매자 로그인 페이지">
+  <meta name="keywords" content="Yummy, 판매자, 로그인, 회원가입">
 
   <!-- Favicons -->
   <link href="../../static/assets/img/favicon.png" rel="icon">
@@ -76,7 +14,7 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="../../static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -88,15 +26,130 @@
   <!-- Main CSS File -->
   <link href="../../static/assets/css/main.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: Yummy
-  * Template URL: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/
-  * Updated: Aug 07 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8f9fa;
+      color: #343a40;
+    }
 
-<!-- Vendor JS Files -->
+    h2 {
+      font-weight: 600;
+      font-size: 28px;
+      margin-top: 80px; /* 네비바와 간격 확보 */
+      text-align: center;
+      color: #212529;
+    }
+
+    .login-container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      max-width: 480px;
+      width: 100%;
+      margin: 30px auto;
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: #495057;
+    }
+
+    .form-control {
+      border: 1px solid #ced4da;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 16px;
+    }
+
+    .form-control:focus {
+      border-color: #f77f00;
+      box-shadow: 0 0 0 0.2rem rgba(247, 127, 0, 0.25);
+    }
+
+    .btn-login {
+      background-color: #f77f00;
+      color: #ffffff;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: 2px solid #000000; /* 검은색 테두리 */
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-login:hover {
+      background-color: #e76f00;
+    }
+
+    .btn-signup {
+      background-color: transparent;
+      color: #f77f00;
+      font-weight: 600;
+      border: 2px solid #f77f00;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn-signup:hover {
+      background-color: #f77f00;
+      color: #ffffff;
+    }
+
+    .separator {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #6c757d;
+      font-size: 14px;
+    }
+
+    #footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffb347;
+      padding: 15px;
+      text-align: center;
+      z-index: 100;
+    }
+  </style>
+</head>
+
+<body>
+  <header id="header" class="header d-flex align-items-center sticky-top" style="background-color: #fff8dc;">
+    {% include 'single_pages/navbar.html' %}
+  </header>
+
+  <h2>판매자 로그인</h2>
+
+  <div class="login-container">
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="username" class="form-label">아이디</label>
+        <input type="text" name="username" id="username" class="form-control" placeholder="ID" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">비밀번호</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="PW" required>
+      </div>
+      <div class="d-flex justify-content-center mt-4">
+        <button type="submit" class="btn btn-login">로그인</button>
+      </div>
+      <div class="separator">또는</div>
+      <div class="d-flex justify-content-center">
+        <a href="/seller/seller_signup/" class="btn-signup">회원가입</a>
+      </div>
+    </form>
+  </div>
+
+  {% include 'single_pages/footer.html' %}
+
+  <!-- Vendor JS Files -->
   <script src="../../static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="../../static/assets/vendor/php-email-form/validate.js"></script>
   <script src="../../static/assets/vendor/aos/aos.js"></script>
@@ -107,5 +160,4 @@
   <!-- Main JS File -->
   <script src="../../static/assets/js/main.js"></script>
 </body>
-{% include 'single_pages/footer.html' %}
 </html>
