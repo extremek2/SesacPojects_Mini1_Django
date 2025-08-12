@@ -1,15 +1,19 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-
 from seller.models import Seller
+from django_extensions.db.fields import AutoSlugField
 
 # Create your models here.
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100,
-                            unique=True,
-                            allow_unicode=True)
+    itemcategorycode = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(1000)])
+    itemcategoryname = models.CharField(max_length=10)
+    itemcode = models.IntegerField(unique=True,
+                                   validators=[MinValueValidator(1), MaxValueValidator(1000)])
+    itemname = models.CharField(max_length=20)
+    # slug = models.SlugField(max_length=100,
+    #                         unique=True,
+    #                         allow_unicode=True)
     def __str__(self):
         return f'{self.name} - {self.slug}'
     def get_category_url(self):
