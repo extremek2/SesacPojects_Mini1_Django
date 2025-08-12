@@ -68,21 +68,5 @@ def order_complete(request):
 #
 
 
-    ##cart_items=[
 
-      ##  {'name':'양배추', 'price':1000, 'quantity':1,
-        ## 'image':"../../static/assets/img/greenball.jpg"},
-
-      ##  {'name':'감자', 'price':2000,  'quantity':1,
-       ##  'image':"../../static/assets/img/potato.jpg"},
-
-     ##  'image':"../../static/assets/img/tomato.jpg"},
-
-
-
-   ##]
-
-    ##total=sum(item['price'] * item['quantity'] for item in cart_items)
-
-    ##return render(request, 'cart/detail.html', {'total':total})
 

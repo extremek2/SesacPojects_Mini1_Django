@@ -5,51 +5,100 @@
     <title>cart</title>
     <style>
         /*팝업버튼*/
-        .popup-overlay{
-            display:none;
-            position:fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-        }
+         .popup-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
 
+    /* 팝업 카드 */
+    .popup {
+        background-color: #fff;
+        width: 90%;
+        max-width: 500px;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from { transform: translateY(-30px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .popup h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+    }
+
+    .popup ul {
+        padding-left: 20px;
+        margin-bottom: 20px;
+    }
+
+    .popup label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .popup input[type="text"],
+    .popup select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .popup-buttons {
+        margin-top: 25px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .popup-buttons button {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 0 5px;
+        transition: 0.3s;
+    }
+
+    .popup-buttons button:first-child {
+        background-color: #ccc;
+        color: #333;
+    }
+
+    .popup-buttons button:last-child {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .popup-buttons button:hover {
+        opacity: 0.9;
+    }
+
+    @media (max-width: 480px) {
         .popup {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            width: 400px;
-            max-height: 80%;
-            overflow-y: auto;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            padding: 20px;
         }
 
         .popup h3 {
-            margin-top: 0;
+            font-size: 20px;
         }
-
-        .popup label {
-            display: block;
-            margin-top: 10px;
-        }
-
-        .popup input, .popup select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-        }
-
-        .popup-buttons {
-            margin-top: 20px;
-            text-align: right;
-        }
-
-        .popup-buttons button {
-            padding: 8px 16px;
-            margin-left: 10px;
-        }
+    }
 
 
         /*장바구니 스타일*/
@@ -146,29 +195,27 @@
     </div>
 
 <!--  팝업 영역 -->
-<div class="popup-overlay" id="paymentPopup">
+<<div class="popup-overlay" id="paymentPopup">
     <div class="popup">
-        <h3>💳 결제창</h3>
+        <h3>🧾 주문 결제</h3>
 
-        <!-- 주문 정보 전송 폼 시작 -->
         <form method="post" action="{% url 'order_complete' %}" id="orderForm">
             {% csrf_token %}
 
             <div id="popupItems">
-                <!-- 자바스크립트로 상품목록 넣을 예정 -->
+                <!-- JS에서 상품 목록 출력 -->
             </div>
 
-            <label for="address">배송지 주소:</label>
-            <input type="text" name="address" id="address" required>
+            <label for="address">배송지 주소</label>
+            <input type="text" name="address" id="address" placeholder="예: 서울특별시 강남구 ..." required>
 
-            <label for="paymentMethod">결제 수단:</label>
+            <label for="paymentMethod">결제 수단</label>
             <select name="payment_method" id="paymentMethod" required>
-                <option value="card">신용카드</option>
-                <option value="bank">무통장 입금</option>
-                <option value="kakao">카카오페이</option>
+                <option value="card">💳 신용카드</option>
+                <option value="bank">🏦 무통장 입금</option>
+                <option value="kakao">💛 카카오페이</option>
             </select>
 
-            <!-- 숨겨진 input으로 상품 목록 전송할 예정 -->
             <input type="hidden" name="items" id="itemsInput">
 
             <div class="popup-buttons">
