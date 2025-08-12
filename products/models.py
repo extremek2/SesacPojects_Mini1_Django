@@ -15,14 +15,14 @@ class Category(models.Model):
         return f'/products/category/{self.slug}'
 
 class Products(models.Model):
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, blank=True)
     price = models.IntegerField()
     quantity = models.IntegerField()
     uploaded_image = models.ImageField(upload_to='products/', blank=True, null=True)
-    username = models.ForeignKey(Seller, on_delete=models.CASCADE)
     def __str__(self):
-        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity} 판매자ID[{self.username}]'
+        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity} 판매자ID[{self.seller}]'
                 #  - 판매자{self.seller}
     def get_absolute_url(self):
         return f'/products/{self.pk}/'

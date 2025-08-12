@@ -67,7 +67,7 @@ def seller_dashboard(request):
     except Seller.DoesNotExist:
         return redirect('seller_login')
 
-    products = Products.objects.filter(username=seller)
+    products = Products.objects.filter(seller=seller)
 
     return render(request, 'seller/dashboard.html', {
         'seller': seller,
@@ -84,16 +84,13 @@ def seller_upload(request):
     if not request.user.is_authenticated:
         return redirect('seller_login')
 
-    try:
-        seller = Seller.objects.get(user=request.user)
-    except Seller.DoesNotExist:
-        return redirect('seller_login')
+    seller = get_object_or_404(Seller, user=request.user)
 
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             product = form.save(commit=False)
-            product.username = seller  # 판매자 연결
+            product.seller = seller  # 로그인된 판매자 연결
             product.save()
             return redirect('seller_dashboard')
     else:
