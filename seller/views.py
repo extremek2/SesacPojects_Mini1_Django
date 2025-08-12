@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from products.models import Products
 from .forms import ProductForm
 from .models import Seller
+from django.views.decorators.http import require_POST
 
 # 판매자 로그인
 def seller_login(request):
@@ -66,7 +67,7 @@ def seller_dashboard(request):
     except Seller.DoesNotExist:
         return redirect('seller_login')
 
-    products = Products.objects.filter(username=seller)
+    products = Products.objects.filter(seller=seller)
 
     return render(request, 'seller/dashboard.html', {
         'seller': seller,
@@ -83,19 +84,62 @@ def seller_upload(request):
     if not request.user.is_authenticated:
         return redirect('seller_login')
 
-    try:
-        seller = Seller.objects.get(user=request.user)
-    except Seller.DoesNotExist:
-        return redirect('seller_login')
+    seller = get_object_or_404(Seller, user=request.user)
 
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             product = form.save(commit=False)
-            product.username = seller  # 판매자 연결
+            product.seller = seller  # 로그인된 판매자 연결
             product.save()
             return redirect('seller_dashboard')
     else:
         form = ProductForm()
 
     return render(request, 'seller/seller_upload.html', {'form': form})
+
+#상품수정함수
+def update_product(request, product_id):
+    # 로그인 여부 확인
+    if not request.user.is_authenticated:
+        messages.warning(request, '로그인이 필요합니다.')
+        return redirect('seller_login')
+
+    # 로그인한 판매자 정보 가져오기
+    seller = get_object_or_404(Seller, user=request.user)
+
+    # 해당 판매자의 상품인지 확인
+    product = get_object_or_404(Products, id=product_id, seller=seller)
+
+    # POST 요청일 경우: 수정 처리
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            messages.success(request, '상품이 성공적으로 수정되었습니다.')
+            return redirect('seller_dashboard')
+        else:
+            messages.error(request, '입력한 정보에 오류가 있습니다. 다시 확인해주세요.')
+    else:
+        # GET 요청일 경우: 기존 정보로 폼 생성
+        form = ProductForm(instance=product)
+
+    # 템플릿에 기존 상품 정보와 수정 폼 전달
+    return render(request, 'seller/update_product.html', {
+        'form': form,
+        'product': product
+    })
+
+
+#상품삭제
+@require_POST
+def delete_product(request, product_id):
+    if not request.user.is_authenticated:
+        return redirect('seller_login')
+
+    seller = get_object_or_404(Seller, user=request.user)
+    product = get_object_or_404(Products, id=product_id, seller=seller)
+
+    product.delete()
+    messages.success(request, '상품이 삭제되었습니다.')
+    return redirect('seller_dashboard')

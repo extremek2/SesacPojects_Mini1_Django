@@ -7,21 +7,30 @@
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-
-  <!-- Bootstrap CSS -->
   <link href="../../static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
-    body {
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
       background-color: #f8f9fa;
       font-family: 'Inter', sans-serif;
-      padding: 40px;
       color: #343a40;
+    }
+
+    header, footer {
+      margin: 0;
+      padding: 0;
     }
 
     .dashboard-header {
       text-align: center;
-      margin-bottom: 40px;
+      margin: 40px 0 20px 0;
       color: #212529;
     }
 
@@ -33,19 +42,26 @@
     .section-title {
       font-size: 20px;
       font-weight: 600;
-      margin-top: 40px;
       margin-bottom: 20px;
       color: #495057;
     }
 
-    ul {
-      list-style: none;
-      padding-left: 0;
-      margin-bottom: 30px;
+    .info-card, .products-card {
+      background-color: #ffffff;
+      border: 1px solid #dee2e6;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      margin-bottom: 40px;
     }
 
-    ul li {
-      margin-bottom: 8px;
+    .info-card ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .info-card ul li {
+      margin-bottom: 10px;
       font-size: 16px;
     }
 
@@ -100,50 +116,83 @@
       background-color: #0b5ed7;
     }
 
-    .text-center {
-      margin-top: 40px;
-    }
+    {##footer {#}
+    {#  position: fixed;#}
+    {#  bottom: 0;#}
+    {#  left: 0;#}
+    {#  width: 100%;#}
+    {#  padding: 15px;#}
+    {#  text-align: center;#}
+    {#  z-index: 100;#}
+    {#  background-color: #f1f3f5;#}
+    {#}#}
   </style>
 </head>
-<header id="header" class="header d-flex align-items-center sticky-top" style="background-color: #ffb347;">
-{% include 'single_pages/navbar.html' %}
-</header>
+
 <body>
+  <header id="header" class="header d-flex align-items-center sticky-top" style="background-color: #ffb347;">
+    {% include 'single_pages/navbar.html' %}
+  </header>
+
   <div class="dashboard-header">
     <h1>환영합니다, {{ seller.sellerName }}님!</h1>
   </div>
 
-  <h3 class="section-title">판매자 정보</h3>
-  <ul>
-    <li><strong>아이디:</strong> {{ seller.username }}</li>
-    <li><strong>매장 이름:</strong> {{ seller.store_name }}</li>
-    <li><strong>전화번호:</strong> {{ seller.phone_number }}</li>
-    <li><strong>주소:</strong> {{ seller.address }}</li>
-  </ul>
-
-  <h3 class="section-title">등록된 상품 목록</h3>
   <div class="container">
-    <div class="row gy-4">
-      {% for product in products %}
-        <div class="col-md-3 col-sm-6">
-          <div class="product-card">
-            {% if product.uploaded_image %}
-              <img src="{{ product.uploaded_image.url }}" alt="{{ product.name }}">
-            {% endif %}
-            <h5>{{ product.name }}</h5>
-            <p>가격: {{ product.price }}</p>
-            <p>수량: {{ product.quantity }}</p>
+    <div class="row">
+      <!-- 판매자 정보 카드 -->
+      <div class="col-md-4">
+        <div class="info-card">
+          <h3 class="section-title">판매자 정보</h3>
+          <ul>
+            <li><strong>아이디:</strong> {{ seller.user.username }}</li>
+            <li><strong>매장 이름:</strong> {{ seller.store_name }}</li>
+            <li><strong>전화번호:</strong> {{ seller.phone_number }}</li>
+            <li><strong>주소:</strong> {{ seller.address }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 상품 목록 카드 -->
+      <div class="col-md-8">
+        <div class="products-card">
+          <h3 class="section-title">등록된 상품 목록
+              <div class="text-center">
+            <a href="/seller/seller_upload/" class="btn-custom">상품 등록</a>
+          </div></h3>
+
+          <div class="row gy-4">
+            {% for product in products %}
+            <div class="col-md-6 col-sm-12">
+              <div class="product-card">
+                {% if product.uploaded_image %}
+                  <img src="{{ product.uploaded_image.url }}" alt="{{ product.name }}">
+                {% endif %}
+                <h5>{{ product.name }}</h5>
+                <p>가격: {{ product.price }}</p>
+                <p>수량: {{ product.quantity }}</p>
+
+                <!-- 버튼 영역 -->
+                <div class="d-flex justify-content-center mt-3">
+                  <a href="{% url 'seller_product_edit' product.id %}" class="btn btn-outline-primary me-2">수정</a>
+                <form action="{% url 'seller_product_delete' product.id %}" method="POST" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-outline-danger">삭제</button>
+                </form>
+
+                </div>
+              </div>
+            </div>
+
+            {% empty %}
+              <p class="text-muted">등록된 상품이 없습니다.</p>
+            {% endfor %}
           </div>
         </div>
-      {% empty %}
-        <p class="text-muted">등록된 상품이 없습니다.</p>
-      {% endfor %}
+      </div>
     </div>
   </div>
 
-  <div class="text-center">
-    <a href="/seller/seller_upload/" class="btn-custom">상품 등록</a>
-  </div>
+  {% include 'single_pages/footer.html' %}
 </body>
-{% include 'single_pages/footer.html' %}
 </html>
