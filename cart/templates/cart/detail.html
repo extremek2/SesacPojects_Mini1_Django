@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cart</title>
+    <style>
+        body {
+            font-family:'Arial', sans-serif;
+            padding:30px;
+            background-color: #f9f9f9;
+        }
+          h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            margin-top: 30px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .product-image {
+            width: 60px;
+            height: 60px;
+        }
+
+        .delete-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .checkout {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .checkout-btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<header id="header" class="header d-flex align-items-center sticky-top">
+{% include 'single_pages/navbar.html' %}
+</header>
+
+<body>
+  <h2>🛒 장바구니</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>이미지</th>
+                <th>상품명</th>
+                <th>가격</th>
+                <th>수량</th>
+                <th>합계</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_itmes %}
+            <tr>
+                <td><img src="{{ item.image }}" alt="상품" class="product-image"></td>
+                <td>{{ item.name }}</td>
+                <td>₩{{ item.price }}</td>
+                <td><input type="number" value="{{ item.quantity }}" min="1"></td>
+                <td>₩{{ item.price|add:"0"|floatformat:0 }} × {{ item.quantity }}</td>
+                <td><button class="delete-btn">삭제</button></td>
+            </tr>
+            {%  endfor %}
+        </tbody>
+    </table>
+
+    <div class="checkout">
+        <p><strong>총 금액: ₩10,000</strong></p>
+        <button class="checkout-btn">결제하기</button>
+    </div>
+
+</body>
+
+</html>
+{% include 'single_pages/footer.html' %}
