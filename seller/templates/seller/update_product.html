@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>상품 정보 수정</title>
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+    <style>
+        #footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 15px;
+      text-align: center;
+      z-index: 100;
+      background-color: #f1f3f5;
+    }
+  </style>
+</head>
+
+<body class="bg-light">
+
+  <!-- Header -->
+  <header id="header" class="header d-flex align-items-center sticky-top" style="background-color: #fff8dc;">
+    {% include 'single_pages/navbar.html' %}
+  </header>
+
+  <!-- Main Content -->
+  <div class="container py-5">
+    <h2 class="text-center mb-5">상품 정보 수정</h2>
+
+    <div class="row">
+      <!-- 기존 정보 카드 -->
+      <div class="col-md-6 mb-4">
+        <div class="card border-secondary h-100">
+          <div class="card-header bg-secondary text-white">기존 상품 정보</div>
+          <div class="card-body">
+            {% if product.uploaded_image %}
+              <img src="{{ product.uploaded_image.url }}" alt="{{ product.name }}" class="img-fluid mb-3 rounded">
+            {% endif %}
+            <p><strong>상품명:</strong> {{ product.name }}</p>
+            <p><strong>가격:</strong> {{ product.price }}</p>
+            <p><strong>수량:</strong> {{ product.quantity }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 수정 폼 카드 -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-header bg-primary text-white">수정할 내용</div>
+          <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+
+              <div class="mb-3">
+                <label for="id_name" class="form-label">상품명</label>
+                {{ form.name }}
+              </div>
+
+              <div class="mb-3">
+                <label for="id_price" class="form-label">가격</label>
+                {{ form.price }}
+              </div>
+
+              <div class="mb-3">
+                <label for="id_quantity" class="form-label">수량</label>
+                {{ form.quantity }}
+              </div>
+
+              <div class="mb-3">
+                <label for="id_uploaded_image" class="form-label">상품 이미지</label>
+                {{ form.uploaded_image }}
+              </div>
+
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary px-4">저장하기</button>
+                <a href="{% url 'seller_dashboard' %}" class="btn btn-secondary ms-2">취소</a>
+              </div>
+            </form>
+
+            <!-- 실시간 미리보기 -->
+            <hr class="my-4">
+            <h5 class="text-muted">🖼️ 수정 미리보기</h5>
+            <div class="border p-3 rounded bg-light">
+              <img id="preview-image" src="#" alt="미리보기" class="img-fluid rounded d-none mb-3" />
+              <p><strong>상품명:</strong> <span id="preview-name">-</span></p>
+              <p><strong>가격:</strong> <span id="preview-price">-</span></p>
+              <p><strong>수량:</strong> <span id="preview-quantity">-</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  {% include 'single_pages/footer.html' %}
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+  <!-- 실시간 미리보기 스크립트 -->
+  <script>
+    // 이미지 미리보기
+    document.getElementById("id_uploaded_image").addEventListener("change", function(event) {
+      const file = event.target.files[0];
+      const preview = document.getElementById("preview-image");
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.classList.remove("d-none");
+        };
+        reader.readAsDataURL(file);
+      } else {
+        preview.src = "#";
+        preview.classList.add("d-none");
+      }
+    });
+
+    // 텍스트 필드 실시간 반영
+    document.getElementById("id_name").addEventListener("input", function(e) {
+      document.getElementById("preview-name").textContent = e.target.value || "-";
+    });
+
+    document.getElementById("id_price").addEventListener("input", function(e) {
+      document.getElementById("preview-price").textContent = e.target.value || "-";
+    });
+
+    document.getElementById("id_quantity").addEventListener("input", function(e) {
+      document.getElementById("preview-quantity").textContent = e.target.value || "-";
+    });
+  </script>
+</body>
+</html>

@@ -5,24 +5,27 @@ from seller.models import Seller
 # Create your models here.
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    itemcode = models.IntegerField(unique=True)
+    itemname = models.CharField(max_length=20)
+    itemcategorycode = models.IntegerField()
+    itemcategoryname = models.CharField(max_length=10)
     slug = models.SlugField(max_length=100,
                             unique=True,
                             allow_unicode=True)
     def __str__(self):
-        return f'{self.name} - {self.slug}'
+        return f'{self.itemname}'
     def get_category_url(self):
         return f'/products/category/{self.slug}'
 
 class Products(models.Model):
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, blank=True)
     price = models.IntegerField()
     quantity = models.IntegerField()
     uploaded_image = models.ImageField(upload_to='products/', blank=True, null=True)
-    username = models.ForeignKey(Seller, on_delete=models.CASCADE)
     def __str__(self):
-        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity} 판매자ID[{self.username}]'
+        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity} 판매자ID[{self.seller}]'
                 #  - 판매자{self.seller}
     def get_absolute_url(self):
         return f'/products/{self.pk}/'

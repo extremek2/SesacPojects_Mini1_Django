@@ -15,95 +15,47 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Category",
+            name='Category',
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("name", models.CharField(max_length=100)),
-                (
-                    "slug",
-                    models.SlugField(allow_unicode=True, max_length=100, unique=True),
-                ),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('itemcode', models.CharField(max_length=20)),
+                ('itemname', models.CharField(max_length=20)),
+                ('itemcategorycode', models.IntegerField()),
+                ('itemcategoryname', models.CharField(max_length=10)),
+                ('slug', models.SlugField(allow_unicode=True, max_length=100, unique=True)),
             ],
         ),
         migrations.CreateModel(
-            name="SeasonalProducts",
+            name='SeasonalProducts',
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                (
-                    "idntfc_no",
-                    models.IntegerField(
-                        validators=[
-                            django.core.validators.MinValueValidator(1),
-                            django.core.validators.MaxValueValidator(10000000),
-                        ]
-                    ),
-                ),
-                ("prdlst_nm", models.CharField(max_length=20)),
-                ("m_distctns", models.CharField(max_length=20)),
-                ("m_distctns_itm", models.CharField(max_length=20)),
-                ("prdlst_cl", models.CharField(max_length=20)),
-                ("mtc_nm", models.CharField(max_length=100)),
-                ("prdctn_era", models.CharField(max_length=20)),
-                ("main_spcies_nm", models.CharField(max_length=20, null=True)),
-                ("effect", models.CharField(max_length=300)),
-                ("purchase_mth", models.CharField(max_length=300)),
-                ("cook_mth", models.CharField(max_length=300)),
-                ("trt_mth", models.CharField(max_length=300)),
-                ("url", models.CharField(max_length=100)),
-                ("img_url", models.CharField(max_length=100)),
-                ("regist_de", models.DateTimeField()),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('idntfc_no', models.IntegerField(validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(10000000)])),
+                ('prdlst_nm', models.CharField(max_length=20)),
+                ('m_distctns', models.CharField(max_length=20)),
+                ('m_distctns_itm', models.CharField(max_length=20)),
+                ('prdlst_cl', models.CharField(max_length=20)),
+                ('mtc_nm', models.CharField(max_length=100)),
+                ('prdctn_era', models.CharField(max_length=20)),
+                ('main_spcies_nm', models.CharField(max_length=20, null=True)),
+                ('effect', models.CharField(max_length=300)),
+                ('purchase_mth', models.CharField(max_length=300)),
+                ('cook_mth', models.CharField(max_length=300)),
+                ('trt_mth', models.CharField(max_length=300)),
+                ('url', models.CharField(max_length=100)),
+                ('img_url', models.CharField(max_length=100)),
+                ('regist_de', models.DateTimeField()),
             ],
         ),
         migrations.CreateModel(
             name="Products",
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("name", models.CharField(max_length=100)),
-                ("price", models.IntegerField()),
-                ("quantity", models.IntegerField()),
-                (
-                    "uploaded_image",
-                    models.ImageField(blank=True, null=True, upload_to="products/"),
-                ),
-                (
-                    "category",
-                    models.ForeignKey(
-                        blank=True,
-                        null=True,
-                        on_delete=django.db.models.deletion.SET_NULL,
-                        to="products.category",
-                    ),
-                ),
-                (
-                    "username",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="seller.seller"
-                    ),
-                ),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=100)),
+                ('price', models.IntegerField()),
+                ('quantity', models.IntegerField()),
+                ('uploaded_image', models.ImageField(blank=True, null=True, upload_to='products/')),
+                ('category', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='products.category')),
+                ('username', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='seller.seller')),
             ],
         ),
     ]

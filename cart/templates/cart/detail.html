@@ -148,26 +148,34 @@
 <!--  팝업 영역 -->
 <div class="popup-overlay" id="paymentPopup">
     <div class="popup">
-        <h3> 결제창</h3>
+        <h3>💳 결제창</h3>
 
-        <div id="popupItems">
-            <!-- 상품 목록을 JS로 채워넣을 예정 -->
-        </div>
+        <!-- 주문 정보 전송 폼 시작 -->
+        <form method="post" action="{% url 'order_complete' %}" id="orderForm">
+            {% csrf_token %}
 
-        <label for="address">배송지 주소:</label>
-        <input type="text" id="address" placeholder="주소를 입력하세요">
+            <div id="popupItems">
+                <!-- 자바스크립트로 상품목록 넣을 예정 -->
+            </div>
 
-        <label for="paymentMethod">결제 수단:</label>
-        <select id="paymentMethod">
-            <option value="card">신용카드</option>
-            <option value="bank">무통장 입금</option>
-            <option value="kakao">카카오페이</option>
-        </select>
+            <label for="address">배송지 주소:</label>
+            <input type="text" name="address" id="address" required>
 
-        <div class="popup-buttons">
-            <button onclick="closePopup()">취소</button>
-            <button onclick="submitOrder()">주문하기</button>
-        </div>
+            <label for="paymentMethod">결제 수단:</label>
+            <select name="payment_method" id="paymentMethod" required>
+                <option value="card">신용카드</option>
+                <option value="bank">무통장 입금</option>
+                <option value="kakao">카카오페이</option>
+            </select>
+
+            <!-- 숨겨진 input으로 상품 목록 전송할 예정 -->
+            <input type="hidden" name="items" id="itemsInput">
+
+            <div class="popup-buttons">
+                <button type="button" onclick="closePopup()">취소</button>
+                <button type="submit">주문하기</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -179,15 +187,20 @@
         // 상품 정보 복사해서 보여주기
         const rows = document.querySelectorAll("tbody tr");
         const popupItems = document.getElementById("popupItems");
+        const itemsInput=document.getElementById("itemsInput");
         popupItems.innerHTML = "<strong>선택한 상품:</strong><ul>";
+
+        const itemsList=[];
 
         rows.forEach(row => {
             const name = row.children[1].innerText;
             const quantity = row.children[3].querySelector('input').value;
             popupItems.innerHTML += `<li>${name} - ${quantity}개</li>`;
+            itemsList.push(`${name} (${quantity}개)`);
         });
 
         popupItems.innerHTML += "</ul>";
+        itemsInput.value = JSON.stringify(itemsList); // JSON 문자열로 전송
     }
 
     function closePopup() {
