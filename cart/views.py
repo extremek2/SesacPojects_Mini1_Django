@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import CartItem
 from django.views.decorators.csrf import csrf_exempt
 import json
+from .models import Order,OrderItem
 # Create your views here.
 def cart(request):
     return render(request, 'cart/detail.html')
@@ -18,14 +19,38 @@ def detail(request):
 @login_required
 def order_complete(request):
     if request.method == 'POST':
-        items=request.POST.get('items')
+        items_raw = request.POST.get('items')
+        address = request.POST.get('address')
+        payment_method = request.POST.get('payment_method')
+
         try:
-            parsed_items = json.loads(items)
+            items_list=json.loads(items_raw)
+            #parsed_items = json.loads(items)
         except:
-            parsed_items = []
+            items_list=[]
+            #parsed_items = []
+
+        order=Order.objects.create(
+            user=request.user,
+            address=address,
+            payment_method=payment_method,
+        )
+
+        for item in items_list:
+
+            name,qty_part=item.split('(')
+            quantity=int(qty_part.replace('개)',''))
+
+            OrderItem.objects.create(
+                order=order,
+                product_name=name.strip(),
+                quantity=quantity,
+            )
+
+
 
         # 저장하고 다음 요청에서도 쓸 수 있도록 세션에 저장
-        request.session['ordered_items'] = parsed_items
+        request.session['ordered_items'] = items_list
 
         return redirect('order_complete')
 
