@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from products.models import Products
 from .forms import ProductForm
 from .models import Seller
+from django.views.decorators.http import require_POST
 
 # 판매자 로그인
 def seller_login(request):
@@ -99,3 +100,4 @@ def seller_upload(request):
         form = ProductForm()
 
     return render(request, 'seller/seller_upload.html', {'form': form})
+
