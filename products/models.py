@@ -1,16 +1,22 @@
-from django.db import models
-
-# Create your models here.
-
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from seller.models import Seller
 
-
 # Create your models here.
-#상품클래스
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100,
+                            unique=True,
+                            allow_unicode=True)
+    def __str__(self):
+        return f'{self.name} - {self.slug}'
+    def get_category_url(self):
+        return f'/products/category/{self.slug}'
+
 class Products(models.Model):
     name = models.CharField(max_length=100)
+    category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, blank=True)
     price = models.IntegerField()
     quantity = models.IntegerField()
     uploaded_image = models.ImageField(upload_to='products/', blank=True, null=True)
@@ -18,6 +24,9 @@ class Products(models.Model):
     def __str__(self):
         return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity} 판매자ID[{self.username}]'
                 #  - 판매자{self.seller}
+    def get_absolute_url(self):
+        return f'/products/{self.pk}/'
+
 
 
 class SeasonalProducts(models.Model):
