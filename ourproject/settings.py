@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'products',
     'recipes',
     'seller',
+    'cart',
     'landingpages',
 
 ]

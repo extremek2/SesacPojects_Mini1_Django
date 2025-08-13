@@ -31,6 +31,7 @@ urlpatterns = [
     path('recipes/', include('recipes.urls')),
     path('seller/', include('seller.urls')),
     path('landingpages/', include('landingpages.urls')),
+    path('cart/',include('cart.urls')),
 
 ]
 

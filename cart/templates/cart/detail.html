@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cart</title>
+    <style>
+        /* 여백 제거 및 네비바 높이 조정 */
+        body, header.header, footer {
+            margin: 0;
+            padding: 0;
+        }
+
+        header.header {
+            height: 92px;
+            padding: 20px 0;
+            display: flex;
+            align-items: center;
+            background-color: #fff8dc;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+        .navbar {
+            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        /* 팝업 오버레이 */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        /* 팝업 카드 */
+        .popup {
+            background-color: #fff;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .popup h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .popup ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .popup label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .popup input[type="text"],
+        .popup select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .popup-buttons {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .popup-buttons button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: 0.3s;
+        }
+
+        .popup-buttons button:first-child {
+            background-color: #ccc;
+            color: #333;
+        }
+
+        .popup-buttons button:last-child {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .popup-buttons button:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 480px) {
+            .popup {
+                padding: 20px;
+            }
+
+            .popup h3 {
+                font-size: 20px;
+            }
+        }
+
+        /* 장바구니 스타일 */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            margin-top: 30px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .product-image {
+            width: 60px;
+            height: 60px;
+        }
+
+        .delete-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .checkout {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .checkout-btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header" class="header d-flex align-items-center sticky-top">
+        {% include 'single_pages/navbar.html' %}
+    </header>
+    <br>
+    <h2>장바구니</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>이미지</th>
+                <th>상품명</th>
+                <th>가격</th>
+                <th>수량</th>
+                <th>합계</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_itmes %}
+            <tr>
+                <td><img src="{{ item.image_url }}" alt="상품" class="product-image"></td>
+                <td>{{ item.name }}</td>
+                <td>₩{{ item.price }}</td>
+                <td><input type="number" value="{{ item.quantity }}" min="1"></td>
+                <td>₩{{ item.total_price }}</td>
+                <td><button class="delete-btn">삭제</button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="checkout">
+        <button class="checkout-btn" onclick="openPopup()">결제하기</button>
+    </div>
+
+    <!-- 팝업 영역 -->
+    <div class="popup-overlay" id="paymentPopup">
+        <div class="popup">
+            <h3>🧾 주문 결제</h3>
+            <form method="post" action="{% url 'order_complete' %}" id="orderForm">
+                {% csrf_token %}
+                <div id="popupItems">
+                    <!-- JS에서 상품 목록 출력 -->
+                </div>
+
+                <label for="address">배송지 주소</label>
+                <input type="text" name="address" id="address" placeholder="예: 서울특별시 강남구 ..." required>
+
+                <label for="paymentMethod">결제 수단</label>
+                <select name="payment_method" id="paymentMethod" required>
+                    <option value="card">신용카드</option>
+                    <option value="bank">무통장 입금</option>
+                    <option value="kakao">카카오페이</option>
+                </select>
+
+                <input type="hidden" name="items" id="itemsInput">
+
+                <div class="popup-buttons">
+                    <button type="button" onclick="closePopup()">취소</button>
+                    <button type="submit">주문하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        {% include 'single_pages/footer.html' %}
+    </footer>
+
+    <script>
+        function openPopup() {
+            document.getElementById("paymentPopup").style.display = "flex";
+
+            const rows = document.querySelectorAll("tbody tr");
+            const popupItems = document.getElementById("popupItems");
+            const itemsInput = document.getElementById("itemsInput");
+            popupItems.innerHTML = "<strong>선택한 상품:</strong><ul>";
+
+            const itemsList = [];
+
+            rows.forEach(row => {
+                const name = row.children[1].innerText;
+                const quantity = row.children[3].querySelector('input').value;
+                popupItems.innerHTML += `<li>${name} - ${quantity}개</li>`;
+                itemsList.push(`${name} (${quantity}개)`);
+            });
+
+            popupItems.innerHTML += "</ul>";
+            itemsInput.value = JSON.stringify(itemsList);
+        }
+
+        function closePopup() {
+            document.getElementById("paymentPopup").style.display = "none";
+        }
+    </script>
+</body>
+</html>
