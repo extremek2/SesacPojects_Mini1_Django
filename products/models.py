@@ -34,7 +34,7 @@ class Products(models.Model):
 class CartItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.PositiveIntegerField(default=1, null=True, blank=True)
     def __str__(self):
         return f'{self.quantity} x {self.product.name} in Order {self.user.name}'
 

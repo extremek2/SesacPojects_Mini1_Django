@@ -1,11 +1,14 @@
 from itertools import product
 
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import FormView, CreateView
 from django.urls import reverse_lazy
 from django.forms import modelformset_factory
 from .models import SeasonalProducts, Products, Category, CartItem
 from .forms import CartItemForm
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 def products_index(request):
@@ -15,7 +18,8 @@ def products_index(request):
     return render(request, 'products/foody2_product.html',
                   context={'products': products,
                            'seasonal_products': seasonal_products,
-                           'categories': categories
+                           'categories': categories,
+
                            })
 
 def category(request, slug):
@@ -41,22 +45,55 @@ def detail(request, pk):
                   context={'product': product,
                            'categories': categories})
 
-
+@csrf_exempt
 def create_cart(request):
 
-    product = Products.objects.all()
-    cart_item = CartItem.objects.get_or_create(user=request.user)[0]
 
+    cartform = CartItemForm()
     if request.method == "POST":
-        data = request.POST
-        print(data)
-        cartform = CartItemForm(data)
+        import json
+        data = json.loads(request.body.decode('utf-8'))
+        product_id = data.get("product_id")
+        product_name = data.get("product_name")
+        product_quantity = data.get("quantity")
+        print(request.user, product_id, product_name, product_quantity)
+
+
+        cartform.user_id = request.user
+        cartform.product_id = product_id
+
         if cartform.is_valid():
-            cartform.user = data.user
-            cartform.product = data.product
-            cartform.quantity = data.quantity
             cartform.save()
-            return redirect('/products/', pk=cartform.cleaned_data['pk'])
+            print("DB 반영 완료")
+        else:
+            print("폼 에러")
+        return redirect('/products/')
+        # form = CartItemForm(request.POST)
+        # if form.is_valid():
+        #     form.save()
+        #     return JsonResponse({'message': '성공적으로 처리되었습니다.'})
+        # else:
+        #     # 폼 데이터 유효성 검사 실패
+        #     return JsonResponse({'errors': form.errors}, status=400)
+
+    # if request.method == "POST":
+    #     try:
+    #         data = json.loads(request.body.decode('utf-8'))
+    #         return JsonResponse(data)
+            # print(data)
+            #
+            # cartform.user = request.user
+            # cartform.product = data.get("product")
+            # cartform.quantity = data.get("quantity")
+            #
+            # if cartform.is_valid():
+            #     cartform.save()
+            #     return redirect('/products/')
+        # except json.decoder.JSONDecodeError:
+        #     return JsonResponse({'error': 'Invalid JSON'})
+    else:
+        return redirect('/products/')
+
 
 
 
