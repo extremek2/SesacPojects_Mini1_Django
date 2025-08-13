@@ -13,7 +13,7 @@
           <li><a href="{% url 'index' %}">홈<br></a></li>
           <li><a href="{% url 'products_index' %}">구황작물 구매</a></li>
           <li><a href="#menu">마이페이지</a></li>
-          <li><a href="#events">장바구니</a></li>
+          <li><a href="/cart/">장바구니</a></li>
 
           {% if is_seller %}
             <li><a href="{% url 'seller_dashboard' %}">대시보드로 이동</a></li>
