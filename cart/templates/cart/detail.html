@@ -153,6 +153,14 @@
             border: none;
             font-size: 16px;
             cursor: pointer;
+
+
+        }
+        .cart-summary {
+            margin-top: 20px;
+            text-align: right;
+            font-size: 18px;
+            color: #333;
         }
     </style>
 </head>
@@ -176,7 +184,7 @@
         </thead>
 
         <tbody>
-            {% for item in cart_itmes %}
+            {% for item in cart_items %}
             <tr>
                 <td><img src="{{ item.image_url }}" alt="상품" class="product-image"></td>
                 <td>{{ item.name }}</td>
@@ -188,14 +196,16 @@
             {%  endfor %}
         </tbody>
     </table>
+  <div class="cart-summary">
+    <p><strong>총 합계:</strong> <span id="totalPrice">₩0</span></p>
+</div>
 <!--결제 버튼-->
-    <div class="checkout">
-
-        <button class="checkout-btn" onclick="openPopup()">결제하기</button>
-    </div>
+   <div class="checkout">
+    <button class="checkout-btn" onclick="openPopup()">결제하기</button>
+</div>
 
 <!--  팝업 영역 -->
-<<div class="popup-overlay" id="paymentPopup">
+<div class="popup-overlay" id="paymentPopup">
     <div class="popup">
         <h3>🧾 주문 결제</h3>
 
@@ -267,6 +277,29 @@
         alert(`주문 완료!\n배송지: ${address}\n결제수단: ${method}`);
         closePopup();
     }
+    function updateTotalPrice() {
+        const rows = document.querySelectorAll("tbody tr");
+        let total = 0;
+
+        rows.forEach(row => {
+            const priceText = row.children[2].innerText.replace("₩", "").replace(",", "");
+            const quantity = parseInt(row.children[3].querySelector('input').value);
+            const price = parseInt(priceText);
+
+            total += price * quantity;
+        });
+
+        document.getElementById("totalPrice").innerText = `₩${total.toLocaleString()}`;
+    }
+
+    // 페이지 로드 시 계산 실행
+    window.onload = updateTotalPrice;
+
+    // 수량 변경 시 합계 갱신
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.addEventListener('change', updateTotalPrice);
+    });
+
 </script>
 
 
