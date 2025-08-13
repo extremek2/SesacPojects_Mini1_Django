@@ -5,7 +5,9 @@ from .models import CartItem
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import Order,OrderItem
-# Create your views here.
+
+
+
 def cart(request):
     return render(request, 'cart/detail.html')
 @login_required

@@ -1,4 +1,3 @@
-from django.db import models
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -32,4 +31,4 @@ class CartItem(models.Model):
         return self.price * self.quantity
     def __str__(self):
         return f'{self.user.username} - {self.product_name}'
-# Create your models here.
+

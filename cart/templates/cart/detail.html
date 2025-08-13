@@ -179,6 +179,14 @@
             border: none;
             font-size: 16px;
             cursor: pointer;
+
+
+        }
+        .cart-summary {
+            margin-top: 20px;
+            text-align: right;
+            font-size: 18px;
+            color: #333;
         }
     </style>
 </head>
@@ -201,8 +209,9 @@
                 <th>삭제</th>
             </tr>
         </thead>
+
         <tbody>
-            {% for item in cart_itmes %}
+            {% for item in cart_items %}
             <tr>
                 <td><img src="{{ item.image_url }}" alt="상품" class="product-image"></td>
                 <td>{{ item.name }}</td>
@@ -211,23 +220,28 @@
                 <td>₩{{ item.total_price }}</td>
                 <td><button class="delete-btn">삭제</button></td>
             </tr>
-            {% endfor %}
+            {%  endfor %}
         </tbody>
     </table>
 
     <div class="checkout">
         <button class="checkout-btn" onclick="openPopup()">결제하기</button>
     </div>
+  <div class="cart-summary">
+    <p><strong>총 합계:</strong> <span id="totalPrice">₩0</span></p>
+</div>
 
-    <!-- 팝업 영역 -->
-    <div class="popup-overlay" id="paymentPopup">
-        <div class="popup">
-            <h3>🧾 주문 결제</h3>
-            <form method="post" action="{% url 'order_complete' %}" id="orderForm">
-                {% csrf_token %}
-                <div id="popupItems">
-                    <!-- JS에서 상품 목록 출력 -->
-                </div>
+
+<div class="popup-overlay" id="paymentPopup">
+    <div class="popup">
+        <h3>🧾 주문 결제</h3>
+
+        <form method="post" action="{% url 'order_complete' %}" id="orderForm">
+            {% csrf_token %}
+
+            <div id="popupItems">
+                <!-- JS에서 상품 목록 출력 -->
+            </div>
 
                 <label for="address">배송지 주소</label>
                 <input type="text" name="address" id="address" placeholder="예: 서울특별시 강남구 ..." required>
@@ -278,6 +292,38 @@
         function closePopup() {
             document.getElementById("paymentPopup").style.display = "none";
         }
-    </script>
+
+
+        // 실제 주문 처리 로직은 서버와 연결 필요
+        alert(`주문 완료!\n배송지: ${address}\n결제수단: ${method}`);
+        closePopup();
+    }
+    function updateTotalPrice() {
+        const rows = document.querySelectorAll("tbody tr");
+        let total = 0;
+
+        rows.forEach(row => {
+            const priceText = row.children[2].innerText.replace("₩", "").replace(",", "");
+            const quantity = parseInt(row.children[3].querySelector('input').value);
+            const price = parseInt(priceText);
+
+            total += price * quantity;
+        });
+
+        document.getElementById("totalPrice").innerText = `₩${total.toLocaleString()}`;
+    }
+
+    // 페이지 로드 시 계산 실행
+    window.onload = updateTotalPrice;
+
+    // 수량 변경 시 합계 갱신
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.addEventListener('change', updateTotalPrice);
+    });
+
+</script>
+
+
 </body>
+
 </html>
