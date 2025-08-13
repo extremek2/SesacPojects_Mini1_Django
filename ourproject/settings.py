@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'seller',
     'cart',
     'landingpages',
+    'django.contrib.humanize',
 
 ]
 

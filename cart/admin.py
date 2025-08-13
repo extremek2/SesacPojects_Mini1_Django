@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import CartItem
 from .models import Order,OrderItem
 
+
 admin.site.register(CartItem)
 # Register your models here.
 

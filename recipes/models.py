@@ -24,6 +24,7 @@ class RecipeIngredients(models.Model):
     def __str__(self):
         return f'{self.recipe_id} - {self.irdnt_sn} - {self.irdnt_nm} - {self.irdnt_cpcty} - {self.irdnt_ty_code} - {self.irdnt_ty_nm}'
 
+
 class RecipeInfo(models.Model):
     # 레시피 코드
     recipe_id = models.IntegerField(
@@ -63,6 +64,7 @@ class RecipeInfo(models.Model):
                 {self.nation_code}-{self.nation_nm}-{self.ty_code}-
                 {self.ty_nm}-{self.cooking_time}-{self.calorie}-
                 {self.qnt}-{self.level_nm}-{self.irdnt_code}-{self.pc_nm}''')
+
 
 class RecipeCourse(models.Model):
     # 레시피 코드

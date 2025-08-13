@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load humanize %}
 <head>
     <meta charset="UTF-8">
     <title>Order_complete</title>
@@ -36,9 +37,26 @@
     </style>
 </head>
 <body>
+
 <div class="box">
     <h2>주문이 완료되었습니다!</h2>
 
+    <hr>
+    <p><strong>주문번호:</strong> {{ order_info.order_id }}</p>
+    <p><strong>배송지:</strong> {{ order_info.address }}</p>
+    <p><strong>결제 수단:</strong>
+        {% if order_info.payment_method == 'card' %}
+            💳 신용카드
+        {% elif order_info.payment_method == 'bank' %}
+            🏦 무통장 입금
+        {% elif order_info.payment_method == 'kakao' %}
+            💛 카카오페이
+        {% else %}
+            {{ order_info.payment_method }}
+        {% endif %}
+    </p>
+    <p><strong>주문일시:</strong> {{ order_info.created_at }}</p>
+    <p><strong>총 금액:</strong> ₩{{ order_info.total_price|intcomma }}</p>
     <strong>주문하신 상품 목록:</strong>
     <ul>
         {% for item in items %}
@@ -47,6 +65,7 @@
     </ul>
 
     <p>🎉 이용 감사합니다!</p>
+
 </div>
 
 

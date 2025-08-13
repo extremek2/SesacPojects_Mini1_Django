@@ -184,16 +184,28 @@
         </thead>
 
         <tbody>
+         {% if cart_items %}
             {% for item in cart_items %}
             <tr>
                 <td><img src="{{ item.image_url }}" alt="상품" class="product-image"></td>
-                <td>{{ item.name }}</td>
+                <td>{{ item.product_name }}</td>
                 <td>₩{{ item.price }}</td>
                 <td><input type="number" value="{{ item.quantity }}" min="1"></td>
                 <td>₩{{ item.total_price }}</td>
-                <td><button class="delete-btn">삭제</button></td>
+                <td>
+                    <<form method="post" action="{% url 'cart_delete' item.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn">삭제</button>
+                </form></td>
             </tr>
             {%  endfor %}
+        {% else %}
+        <tr>
+            <td colspan="6" style="text-align:center; padding: 20px; font-size: 18px; color: #666;">
+                🛒 장바구니가 비었습니다!
+            </td>
+        </tr>
+    {% endif %}
         </tbody>
     </table>
   <div class="cart-summary">
@@ -211,6 +223,7 @@
 
         <form method="post" action="{% url 'order_complete' %}" id="orderForm">
             {% csrf_token %}
+
 
             <div id="popupItems">
                 <!-- JS에서 상품 목록 출력 -->
