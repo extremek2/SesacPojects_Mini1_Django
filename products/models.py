@@ -1,6 +1,7 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from seller.models import Seller
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -25,10 +26,36 @@ class Products(models.Model):
     quantity = models.IntegerField()
     uploaded_image = models.ImageField(upload_to='products/', blank=True, null=True)
     def __str__(self):
-        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity} 판매자ID[{self.seller}]'
+        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity} 판매자ID[{self.seller}] - 카테고리{self.category}'
                 #  - 판매자{self.seller}
     def get_absolute_url(self):
         return f'/products/{self.pk}/'
+
+class CartItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1, null=True, blank=True)
+    def __str__(self):
+        return f'{self.quantity} x {self.product.name} in Order {self.user.name}'
+
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    address = models.CharField(max_length=100)
+    payment_method = models.CharField(max_length=10)
+    created_at = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return f'{self.user} - {self.address} - {self.paymentmethod} - {self.created_at}'
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    def __str__(self):
+        return f'{self.quantity} x {self.product.name} in Order {self.order.id}'
+
 
 
 

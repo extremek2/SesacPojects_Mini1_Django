@@ -2,65 +2,188 @@
 {% load static %}
 {% block main-area %}
 
-<!-- Product Start -->
+<!-- Product Section Start -->
 <div class="container-xxl py-5">
-    <div class="container">
-        <div class="row g-0 gx-5 align-items-end">
-<!--            <div class="col-lg-6">-->
-<!--                <div class="section-header text-start mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">-->
-<!--                    <h1 class="display-5 mb-3">Our Products</h1>-->
-<!--                    <p>Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum vero dolor duo.</p>-->
-<!--                </div>-->
-<!--            </div>-->
-            <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
-                <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
+  <div class="container">
+    <div class="row">
 
-                    {% for category in categories %}
-                        <li class="nav-item">
-                            <a class="btn btn-outline-primary border-2" href={{ category.get_category_url }}>{{ category.itemname }}</a>
+      <!-- 카테고리 영역 (왼쪽) -->
+      <div class="col-lg-4 mb-4">
+        <div class="bg-light p-4 rounded shadow-sm">
 
-                        </li>
+          <!-- 더 많은 상품 보기 버튼 -->
+          <div class="mb-4 text-center">
+            <a class="btn btn-primary btn-sm rounded-pill w-100 py-2 px-3" href="/products/">더 많은 상품 보기</a>
+          </div>
+
+          <!-- 카테고리 리스트 -->
+          <h5 class="mb-3">카테고리</h5>
+          <div class="accordion" id="categoryAccordion">
+            {% regroup categories by itemcategoryname as grouped_categories %}
+            {% for group in grouped_categories %}
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                  <button class="accordion-button collapsed" type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapse{{ forloop.counter }}"
+                          aria-expanded="false"
+                          aria-controls="collapse{{ forloop.counter }}">
+                    {{ group.grouper }}
+                  </button>
+                </h2>
+                <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse"
+                     aria-labelledby="heading{{ forloop.counter }}"
+                     data-bs-parent="#categoryAccordion">
+                  <div class="accordion-body">
+                    {% for category in group.list %}
+                      <a class="btn btn-outline-primary btn-sm d-block mb-2"
+                         href="{{ category.get_category_url }}">
+                        {{ category.itemname }}
+                      </a>
                     {% endfor %}
-                </ul>
-            </div>
-        </div>
-        <div class="tab-conten
-            <div id="tab-1" class="tab-pane fade show p-0 active">
-                <div class="row g-4">
-
-                    {% for product in products %}
-
-                        <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.{{ forloop.counter }}s">
-                            <div class="product-item">
-                                <div class="position-relative bg-light overflow-hidden">
-                                    <img class="img-fluid w-100" src="{{ product.uploaded_image.url }}" alt="">
-<!--                                    <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">New</div>-->
-                                </div>
-                                <div class="text-center p-4">q
-                                    <a class="d-block h5 mb-2" href="">{{ product.name }}</a>
-                                    <span class="text-primary me-1">{{ product.price }}</span>
-    <!--                                <span class="text-body text-decoration-line-through">$29.00</span>-->
-                                </div>
-                                <div class="d-flex border-top">
-                                    <small class="w-50 text-center border-end py-2">
-                                        <a class="text-body" href="{{ product.get_absolute_url }}"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
-                                    </small>
-                                    <small class="w-50 text-center py-2">
-                                        <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-
-                    {% endfor %}
-
-                    <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
-                        <a class="btn btn-primary rounded-pill py-3 px-5" href="">Browse More Products</a>
-                    </div>
+                  </div>
                 </div>
-            </div>
+              </div>
+            {% endfor %}
+          </div>
+
+          <!-- 장바구니 드롭존 -->
+          <hr class="my-4">
+          <div id="cart-dropzone"
+               ondragover="event.preventDefault()"
+               ondrop="handleDrop(event)"
+               class="bg-white p-3 rounded border">
+            <h5 class="mb-3">🛒 장바구니</h5>
+            <p class="text-muted">상품을 드래그해서 여기에 놓으세요.</p>
+            <ul id="cart-items" class="list-group mb-3"></ul>
+
+            <!-- 장바구니 폼 -->
+<!--            <form method="POST" action="/cart/create/">-->
+
+            <form id="myForm">
+              {% csrf_token %}
+              <input type="hidden" name="product_id" id="cart-product-id">
+              <input type="hidden" name="product_name" id="cart-product-name">
+              <input type="hidden" name="product_price" id="cart-product-price">
+              <button type="submit" class="btn btn-success w-100">장바구니에 담기</button>
+            </form>
+          </div>
+
         </div>
+      </div>
+
+      <!-- 상품 영역 (오른쪽) -->
+      <div class="col-lg-8">
+        <div class="row g-4">
+          {% for product in products %}
+            <div class="col-xl-4 col-md-6 wow fadeInUp" data-wow-delay="0.{{ forloop.counter }}s">
+              <div class="product-item border rounded p-3"
+                   draggable="true"
+                   data-id="{{ product.id }}"
+                   data-name="{{ product.name }}"
+                   data-price="{{ product.price }}"
+                   ondragstart="handleDragStart(event)">
+                <div class="position-relative bg-light overflow-hidden">
+                  <img class="img-fluid w-100" src="{{ product.uploaded_image.url }}" alt="{{ product.name }}">
+                </div>
+                <div class="text-center p-4">
+                  <a class="d-block h5 mb-2" href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                  <span class="text-primary me-1">{{ product.price }}원</span>
+                </div>
+                <div class="d-flex border-top">
+                  <small class="w-50 text-center border-end py-2">
+                    <a class="text-body" href="{{ product.get_absolute_url }}">
+                      <i class="fa fa-eye text-primary me-2"></i>상세보기
+                    </a>
+                  </small>
+                  <small class="w-50 text-center py-2">
+                    <a class="text-body" href="#">
+                      <i class="fa fa-shopping-bag text-primary me-2"></i>장바구니
+                    </a>
+                  </small>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
     </div>
+  </div>
 </div>
-<!-- Product End -->
+<!-- Product Section End -->
+
+<!-- Drag & Drop Script -->
+<script>
+const form = document.getElementById('myForm');
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault(); // 폼 제출 기본 동작 방지
+
+  const formData = new FormData(form);
+  const jsonData = {};
+
+  // FormData 객체를 순회하며 JSON 객체로 변환
+  for (const [key, value] of formData.entries()) {
+    jsonData[key] = value;
+  }
+
+  try {
+    const response = await fetch('/products/cart/create/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(jsonData)
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('성공:', data);
+
+    } else {
+      console.error('요청 실패:', response.status, response.statusText);
+
+    }
+  } catch (error) {
+    console.error('오류 발생:', error);
+
+  }
+});
+
+
+
+
+  function handleDragStart(event) {
+    const target = event.currentTarget;
+    const data = {
+      id: target.dataset.id,
+      name: target.dataset.name,
+      price: target.dataset.price
+    };
+    event.dataTransfer.setData("text/plain", JSON.stringify(data));
+  }
+
+  function handleDrop(event) {
+    event.preventDefault();
+    const data = JSON.parse(event.dataTransfer.getData("text/plain"));
+
+    // 장바구니 리스트에 표시
+    const cartList = document.getElementById("cart-items");
+    const item = document.createElement("li");
+    item.className = "list-group-item";
+    item.textContent = `${data.name}`;
+    {#cartList.innerHTML = ""; // 하나만 담도록 초기화 (여러 개 담으려면 제거)#}
+    cartList.appendChild(item);
+
+    // 폼에 값 채우기
+    document.getElementById("cart-product-id").value = data.id;
+    document.getElementById("cart-product-name").value = data.name;
+    document.getElementById("cart-product-price").value = data.price;
+  }
+</script>
+
+<!-- Bootstrap JS (아코디언 작동을 위해 필요) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 {% endblock %}

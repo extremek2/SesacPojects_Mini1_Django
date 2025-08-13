@@ -1,19 +1,34 @@
 {% extends 'products/base.html' %}
 {% block main-area %}
 
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <img src="{{ product.uploaded_image.url }}" alt="{{ product.name }}" class="card-img-top img-fluid">
 
-{{ product.name }}
-{{ product.price }}
-{{ product.quantity }}
+        <div class="card-body">
+          <h3 class="card-title">{{ product.name }}</h3>
 
+          <p class="card-text">
+            <strong>판매자:</strong> {{ product.seller }}<br>
+            <strong>가격:</strong> {{ product.price|floatformat:0 }}원<br>
+            <strong>재고:</strong> {{ product.quantity }}개
+          </p>
 
+          {% if product.category %}
+            <span class="badge bg-primary">{{ product.category.name }}</span>
+          {% else %}
+            <span class="badge bg-secondary">미분류</span>
+          {% endif %}
 
-{% if product.category %}
-    <a class="badge bg-secondary text-decoration-none link-light" href="#!">
-        {{ post.category.name }}
-    </a>
-{% else %}
-  <a class="badge bg-secondary text-decoration-none link-light" href="#!">미분류</a>
-{% endif %}
+          <hr>
+
+          <a href="{% url 'products_index' %}" class="btn btn-outline-secondary mt-3">← 상품 목록으로</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
