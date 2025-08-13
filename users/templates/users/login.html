@@ -125,28 +125,35 @@
     {% include 'single_pages/navbar.html' %}
   </header>
 
-  <h2>고객 로그인</h2>
+<h2>고객 로그인</h2>
+{% if messages %}
+  <script>
+    {% for message in messages %}
+      alert("{{ message }}");
+    {% endfor %}
+  </script>
+{% endif %}
 
-  <div class="login-container">
-    <form method="post">
-      {% csrf_token %}
-      <div class="mb-3">
-        <label for="username" class="form-label">아이디</label>
-        <input type="text" name="username" id="username" class="form-control" placeholder="ID" required>
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">비밀번호</label>
-        <input type="password" name="password" id="password" class="form-control" placeholder="PW" required>
-      </div>
-      <div class="d-flex justify-content-center mt-4">
-        <button type="submit" class="btn btn-login">로그인</button>
-      </div>
-      <div class="separator">또는</div>
-      <div class="d-flex justify-content-center">
-        <a href="/users/signup/" class="btn-signup">회원가입</a>
-      </div>
-    </form>
-  </div>
+<div class="login-container">
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="username" class="form-label">아이디</label>
+      <input type="text" name="username" id="username" class="form-control" placeholder="ID" required>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">비밀번호</label>
+      <input type="password" name="password" id="password" class="form-control" placeholder="PW" required>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+      <button type="submit" class="btn btn-login">로그인</button>
+    </div>
+    <div class="separator">또는</div>
+    <div class="d-flex justify-content-center">
+      <a href="/users/signup/" class="btn-signup">회원가입</a>
+    </div>
+  </form>
+</div>
 
   {% include 'single_pages/footer.html' %}
 </body>

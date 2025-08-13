@@ -1,5 +1,7 @@
 from django import forms
 from products.models import Products
+from seller.models import Seller
+
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -13,3 +15,10 @@ class ProductForm(forms.ModelForm):
             'uploaded_image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
+class SellerForm(forms.ModelForm):
+    class Meta:
+        model = Seller
+        fields = ['sellerName', 'store_name', 'phone_number', 'address']
+        widgets = {
+            'address': forms.Textarea(attrs={'rows': 3}),
+        }

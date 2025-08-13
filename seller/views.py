@@ -3,12 +3,18 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from products.models import Products
-from .forms import ProductForm
+from .forms import ProductForm,SellerForm
 from .models import Seller
 from django.views.decorators.http import require_POST
 
 # 판매자 로그인
+
 def seller_login(request):
+    #이미 로그인된 사용자가 있으면 로그아웃
+    if request.user.is_authenticated:
+        logout(request)
+        messages.info(request, '기존 고객 계정에서 로그아웃되었습니다.')
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -25,6 +31,7 @@ def seller_login(request):
             messages.error(request, '아이디 또는 비밀번호가 틀렸습니다')
 
     return render(request, 'seller/seller_login.html')
+
 
 # 판매자 회원가입
 def seller_signup(request):
@@ -143,3 +150,16 @@ def delete_product(request, product_id):
     product.delete()
     messages.success(request, '상품이 삭제되었습니다.')
     return redirect('seller_dashboard')
+
+
+#판매자 정보수정
+def seller_update(request):
+    seller = Seller.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = SellerForm(request.POST, instance=seller)
+        if form.is_valid():
+            form.save()
+            return redirect('seller_dashboard')
+    else:
+        form = SellerForm(instance=seller)
+    return render(request, 'seller/seller_update.html', {'form': form})

@@ -9,6 +9,6 @@ urlpatterns = [
     path('seller_upload/', views.seller_upload, name='seller_upload'),
     path('seller/product/edit/<int:product_id>/', views.update_product, name='seller_product_edit'),
     path('seller/product/delete/<int:product_id>/', views.delete_product, name='seller_product_delete'),
-
+    path('update/', views.seller_update, name='seller_update'),
 ]
 

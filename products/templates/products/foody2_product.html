@@ -114,7 +114,7 @@
 <!-- Drag & Drop Script -->
 <script>
   function handleDragStart(event) {
-    const target = event.target;
+    const target = event.currentTarget;
     const data = {
       id: target.dataset.id,
       name: target.dataset.name,

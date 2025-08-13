@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>판매자 정보 수정</title>
+  <link href="../../static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Inter', sans-serif;
+      color: #343a40;
+    }
+    .form-container {
+      max-width: 600px;
+      margin: 60px auto;
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+    .form-title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 30px;
+    }
+    .btn-submit {
+      background-color: #0d6efd;
+      color: white;
+      font-weight: 600;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+    .btn-submit:hover {
+      background-color: #0b5ed7;
+    }
+    #footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffb347;
+      padding: 15px;
+      text-align: center;
+      z-index: 100;
+    }
+  </style>
+</head>
+<header id="header" class="header d-flex align-items-center sticky-top" style="background-color: #fff8dc;">
+{% include 'single_pages/navbar.html' %}
+</header>
+
+<body>
+  <div class="form-container">
+    <h2 class="form-title">판매자 정보 수정</h2>
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-submit">수정 완료</button>
+      </div>
+    </form>
+  </div>
+</body>
+{% include 'single_pages/footer.html' %}
+</html>
