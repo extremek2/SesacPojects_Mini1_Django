@@ -1,6 +1,7 @@
 import item
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, get_object_or_404
 from .models import CartItem
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -10,22 +11,33 @@ def cart(request):
     return render(request, 'cart/detail.html')
 @login_required
 def detail(request):
-    user=request.user
-    cart_items=CartItem.objects.filter(user=user)
-    total=sum(item.total_price() for item in cart_items)
-    return render(request, 'cart/detail.html', {'cart_items':cart_items, 'total':total})
+    cart_items = CartItem.objects.filter(user=request.user)
+    total = sum(item.total_price() for item in cart_items)
+
+    return render(request, 'cart/cart_home.html', {
+        'cart_items': cart_items,
+        'total': total
+    })
+@login_required
+def remove_from_cart(request, item_id):
+    item = get_object_or_404(CartItem, id=item_id, user=request.user)
+    item.delete()
+    return redirect('cart_home')
 
 @csrf_exempt
 @login_required
+
+
 def order_complete(request):
+    items_list=[]
     if request.method == 'POST':
         items_raw = request.POST.get('items')
         address = request.POST.get('address')
         payment_method = request.POST.get('payment_method')
 
         try:
-            items_list=json.loads(items_raw)
-            #parsed_items = json.loads(items)
+            parsed_items = json.loads(items_raw)
+            items_list=parsed_items
         except:
             items_list=[]
             #parsed_items = []

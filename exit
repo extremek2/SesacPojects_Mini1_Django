@@ -1,0 +1,505 @@
+[33mcommit aa29162335bf10c378090e1c9c4079c90456f7c3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mjeen[m[33m, [m[1;31morigin/jeen[m[33m)[m
+Author: honggildong <hong@sasac.com>
+Date:   Tue Aug 12 21:21:06 2025 +0900
+
+    팝업 리디자인
+
+[33mcommit 829884176a7cc60830ebc4965a5a3c802459fd76[m
+Author: honggildong <hong@sasac.com>
+Date:   Tue Aug 12 20:39:49 2025 +0900
+
+    0812-결제내역 DB
+
+[33mcommit a3d10f9d40ac70303bfff71770463da3f679b877[m
+Merge: f0016a1 c323137
+Author: honggildong <hong@sasac.com>
+Date:   Tue Aug 12 19:04:08 2025 +0900
+
+    0812-구매내역
+
+[33mcommit f0016a143f02c92bc9a8a6bcd8c822eac675a1ae[m
+Author: honggildong <hong@sasac.com>
+Date:   Tue Aug 12 16:25:40 2025 +0900
+
+    0812-장바구니 팝업
+
+[33mcommit c323137c61c3b5f8efc2c8dfd5628eba3dca0e00[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/extremek[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 061466c 91f1d3c
+Author: extremek <extremek@naver.com>
+Date:   Tue Aug 12 16:23:48 2025 +0900
+
+    8월 12일 16:23 merge
+
+[33mcommit 061466cfa622015dddca4039ca70069f3ce6eb56[m
+Author: extremek <extremek@naver.com>
+Date:   Tue Aug 12 16:21:05 2025 +0900
+
+    8월 12일 16:20 merge
+
+[33mcommit 4a70cc63cde9b8f94e9d8a830ccb0f374b984657[m
+Author: extremek <extremek@naver.com>
+Date:   Tue Aug 12 15:56:49 2025 +0900
+
+    products 앱 카테고리 검색 수정 반영
+
+[33mcommit 91f1d3c745c288edf7acca4692d4060c0fbb0c53[m[33m ([m[1;31morigin/Eunchong[m[33m)[m
+Author: hong <hong@sesac.com>
+Date:   Tue Aug 12 15:53:42 2025 +0900
+
+    판매자대시보드 거의완성
+
+[33mcommit be818bf471ae7dd6d5bfb86ae57d51e1139c6569[m
+Merge: b8d4675 1a3325e
+Author: honggildong <hong@sasac.com>
+Date:   Tue Aug 12 14:34:08 2025 +0900
+
+    0812-장바구니 와 객체
+
+[33mcommit 23d5b177043476f3481278a914c30c0cf74911be[m
+Merge: add9f4f 1a3325e
+Author: extremek <extremek@naver.com>
+Date:   Tue Aug 12 13:52:38 2025 +0900
+
+    Merge branch 'main' of https://github.com/extremek2/SesacPojects_Mini1_Django into extremek
+    
+    # Conflicts:
+    #       products/models.py
+
+[33mcommit b8d467543b10644fe8d049d6ec4acc183432e1cb[m
+Author: honggildong <hong@sasac.com>
+Date:   Tue Aug 12 13:39:15 2025 +0900
+
+    0812-장바구니
+
+[33mcommit 067dade5ca2f81c9fb78dbedeea82b42d8b4dca3[m
+Author: hong <hong@sesac.com>
+Date:   Tue Aug 12 13:37:04 2025 +0900
+
+    판매자페이지상품연결
+
+[33mcommit 9af792dd9991bb3402fb2455b00199268266647d[m
+Merge: 0521531 1a3325e
+Author: hong <hong@sesac.com>
+Date:   Tue Aug 12 12:11:05 2025 +0900
+
+    Merge branch 'main' into Eunchong
+
+[33mcommit 0521531c7a6ac75bd62994ef705d8bdde6b0d9f0[m
+Author: hong <hong@sesac.com>
+Date:   Tue Aug 12 12:08:47 2025 +0900
+
+    일단꾸미기
+
+[33mcommit 1a3325e9fc5769ae64eba23d02716b583fe2826f[m[33m ([m[1;32mmain[m[33m)[m
+Merge: 2b0b7c8 b54652f
+Author: extremek2 <90878264+extremek2@users.noreply.github.com>
+Date:   Tue Aug 12 12:07:08 2025 +0900
+
+    Merge pull request #6 from extremek2/extremek
+    
+    confirm merge
+
+[33mcommit b54652f09e59c964ae53d49b61305e2688dd80a3[m
+Merge: 317348b 2b0b7c8
+Author: extremek2 <90878264+extremek2@users.noreply.github.com>
+Date:   Tue Aug 12 12:06:33 2025 +0900
+
+    Merge branch 'main' into extremek
+
+[33mcommit add9f4f1d7bc843a4ae13a1cdd13d067a302ed80[m
+Merge: 317348b 2b0b7c8
+Author: extremek <extremek@naver.com>
+Date:   Tue Aug 12 12:02:44 2025 +0900
+
+    8월 12일 버전-project 앱 등 수정사항 반영
+
+[33mcommit 8000f0eee5b82197b376407a087de0365eb7a977[m
+Author: honggildong <hong@sasac.com>
+Date:   Tue Aug 12 11:47:30 2025 +0900
+
+    0812-덮어쓰기
+
+[33mcommit 317348bfad00107be5f9fcddfe3e86026dbb7cea[m
+Author: extremek <extremek@naver.com>
+Date:   Tue Aug 12 11:29:22 2025 +0900
+
+    products 상품 영역 템플릿 교체 적용-기존 템플릿 extends
+
+[33mcommit 2b0b7c8a1254339726eded2095cb99ee94e02061[m
+Author: hong <hong@sesac.com>
+Date:   Tue Aug 12 11:24:16 2025 +0900
+
+    일단꾸미기
+
+[33mcommit 5e2f06eef0344eb7f61834d9823c6ba64fe171e9[m
+Author: honggildong <hong@sasac.com>
+Date:   Tue Aug 12 11:15:08 2025 +0900
+
+    0812-2
+
+[33mcommit 0a9a1d97646b0ba7bc8d80091e0d8743e97e0e65[m
+Merge: 9b03f6a 454ee38
+Author: extremek <extremek@naver.com>
+Date:   Mon Aug 11 21:48:33 2025 +0900
+
+    Merge branch 'extremek' of https://github.com/extremek2/SesacPojects_Mini1_Django into extremek
+
+[33mcommit 9b03f6a26add9e10fbb915250f7ca06d73659869[m
+Author: extremek <extremek@naver.com>
+Date:   Mon Aug 11 21:47:50 2025 +0900
+
+    products 템플릿 임시 교체 및 테스트
+
+[33mcommit a1ec5c6ee2c85bf77a76bca70375eb0bf3292aa5[m
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 21:14:00 2025 +0900
+
+    일단꾸미기
+
+[33mcommit 439d1c4d782029344069687c23458da6061448f5[m
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 19:28:04 2025 +0900
+
+    네비푸터색상변경
+
+[33mcommit cbc653ccaed4c12074e42bf1d812a65140c4a579[m
+Author: honggildong <hong@sasac.com>
+Date:   Mon Aug 11 18:28:38 2025 +0900
+
+    0811-2
+
+[33mcommit 6d2c559c6c521641972cf6bdf96fd457d50b68f2[m
+Merge: b3cb3c5 b8504f7
+Author: honggildong <hong@sasac.com>
+Date:   Mon Aug 11 18:10:22 2025 +0900
+
+    0811-2
+
+[33mcommit 2abd2273190addb654f9230c44835b3904dc2031[m
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 18:00:11 2025 +0900
+
+    판매자 대시보드 기능완료
+
+[33mcommit b8504f7b4e11a7e25c4fd18870e7e84208bd278f[m
+Author: honggildong <hong@sasac.com>
+Date:   Mon Aug 11 17:22:24 2025 +0900
+
+    0811-2
+
+[33mcommit 607726e30e3d040aefc6ed7b86a851f09dfe1c54[m
+Author: honggildong <hong@sasac.com>
+Date:   Mon Aug 11 17:21:34 2025 +0900
+
+    0811-2
+
+[33mcommit 68da159c79f669e6613d770bf4ec98cd977d13f0[m
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 16:45:54 2025 +0900
+
+    판매자 대시보드에 상품등록 추가
+
+[33mcommit 2525a82d35727e419f8f047da04d88e48f02bbfb[m
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 16:07:49 2025 +0900
+
+    고객,판매자 로그인회원가입 생성\
+
+[33mcommit 3559b322db54dfd9e584d07754c5c856a2166adc[m
+Merge: d8e97e7 454ee38
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 15:31:50 2025 +0900
+
+    Merge branch 'extremek' into Eunchong
+     he commit.
+
+[33mcommit d8e97e74c1d49ecebf35de2ce529303611cfc73a[m
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 15:30:52 2025 +0900
+
+    고객,판매자 로그인회원가입 생성
+
+[33mcommit 10fd5c70325d01285a10900656c021df91d7c012[m
+Merge: 4045fdd 454ee38
+Author: extremek2 <90878264+extremek2@users.noreply.github.com>
+Date:   Mon Aug 11 15:29:55 2025 +0900
+
+    Merge pull request #4 from extremek2/extremek
+    
+    products 메인, 상세페이지 연결
+
+[33mcommit 454ee3801e365e3b470675dd94030ca65ff1a132[m
+Merge: db72706 4045fdd
+Author: extremek2 <90878264+extremek2@users.noreply.github.com>
+Date:   Mon Aug 11 15:29:38 2025 +0900
+
+    Merge branch 'main' into extremek
+
+[33mcommit b3cb3c5eed12cfe0ab40e7d58403f69500a5b88d[m
+Author: honggildong <hong@sasac.com>
+Date:   Mon Aug 11 15:28:28 2025 +0900
+
+    0811-1
+
+[33mcommit db72706056eebac311a8a163ff89b0f43fcc156d[m
+Author: extremek <extremek@naver.com>
+Date:   Mon Aug 11 15:25:24 2025 +0900
+
+    products 메인, 상세페이지 연결
+
+[33mcommit 082ab45d2bbfdb4f874efdc3fc1060b885a96f1e[m
+Author: honggildong <hong@sasac.com>
+Date:   Mon Aug 11 15:12:39 2025 +0900
+
+    0811
+
+[33mcommit 4045fdd5b404b4cb3975326bd288077d99363c02[m
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 15:07:27 2025 +0900
+
+    고객,판매자 로그인회원가입 생성
+
+[33mcommit c54c27bb9c04e56bea025ca89b39d749a9b5562c[m
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 15:01:22 2025 +0900
+
+    고객,판매자 로그인회원가입 생성
+
+[33mcommit 1d554a2fc00ed59de3bff374a9d84e75988168ed[m
+Author: honggildong <hong@sasac.com>
+Date:   Mon Aug 11 14:26:38 2025 +0900
+
+    0808 수정
+
+[33mcommit 68dc0fd8887eed20ffb280820940abdc67589ff9[m
+Author: honggildong <hong@sasac.com>
+Date:   Mon Aug 11 14:23:37 2025 +0900
+
+    0808 수정
+
+[33mcommit cb08c92d06692dc0fe9317fd492e53b7f3a1caa5[m
+Author: honggildong <hong@sasac.com>
+Date:   Mon Aug 11 13:55:11 2025 +0900
+
+    0808 수정
+
+[33mcommit 4d4532d18220b7ae740ebbe3dfef049b9691da96[m
+Author: honggildong <hong@sasac.com>
+Date:   Mon Aug 11 13:54:27 2025 +0900
+
+    0808최종사항
+
+[33mcommit 0ff712f29ae3e4b0e291990bd13272ef28273bb4[m
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 13:50:39 2025 +0900
+
+    seller로그인 회원가입 대시보드 생성
+
+[33mcommit 4b3a6341008319aa3286341e65a1884842c4f034[m
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 11:57:04 2025 +0900
+
+    seller앱 생성
+
+[33mcommit fc46c4dd4d0286786be3e55945c7512db03a80f4[m
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 11:36:11 2025 +0900
+
+    seller앱 생성
+
+[33mcommit 285e877f699ccc857632a51b4faf0e8594fcb82f[m
+Merge: 1171ada 40463cb
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 10:47:54 2025 +0900
+
+    Merge branch 'main' into Eunchong
+
+[33mcommit 1171ada33fd5cfc9e5b6237ad8da72676df47272[m
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 10:47:47 2025 +0900
+
+    로그인,회원가입 구현 및 꾸미기 완료
+
+[33mcommit 40463cba96ddd22ad96d8e9544a6dfeee396d2bd[m
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 10:24:28 2025 +0900
+
+    로그인,회원가입 구현 및 꾸미기 완료
+
+[33mcommit 7cab1c45dc469d7e502eb88c871fb1358b54409c[m
+Merge: 7bb703a 75ef082
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 10:19:15 2025 +0900
+
+    로그인,회원가입 구현 및 꾸미기 완료
+
+[33mcommit 7bb703aa442dafd43fd9fa1e696e06246eea9e57[m
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 10:17:14 2025 +0900
+
+    로그인,회원가입 구현 및 꾸미기 완료
+
+[33mcommit 75ef0826d348d763c4d198e25418daefeffab6eb[m
+Merge: 3086d0f 4f1bbfe
+Author: extremek2 <90878264+extremek2@users.noreply.github.com>
+Date:   Mon Aug 11 10:14:50 2025 +0900
+
+    Merge pull request #2 from extremek2/extremek
+    
+    recipes 앱 생성 및 모델 추가 + products 앱생성 + 각각 index.html 생성
+
+[33mcommit 13dd7c6bbd7bf5dd06a0e235a3a7f3229f799304[m
+Author: hong <hong@sesac.com>
+Date:   Mon Aug 11 09:44:06 2025 +0900
+
+    로그인페이지 구현(페이지 꾸미기는 아직 안함)
+
+[33mcommit 4f1bbfe3347e4b9eb85ce93052cc007c13f4ef70[m
+Author: extremek2 <extremek2@paran.com>
+Date:   Mon Aug 11 04:19:17 2025 +0900
+
+    recipes 앱 생성 및 모델 추가 + products 앱생성 + 각각 index.html 생성
+
+[33mcommit 99b688c4dab90185983570665a9f666d9627fbb3[m
+Author: Eunchong <eunchong@sesac.com>
+Date:   Sun Aug 10 10:53:30 2025 +0900
+
+    로그인페이지 수정중
+
+[33mcommit 7c6887b4a1c0687047fe0732f34177cb1c91c3e6[m
+Author: Eunchong <eunchong@sesac.com>
+Date:   Sun Aug 10 09:43:19 2025 +0900
+
+    로그인페이지 수정중
+
+[33mcommit 88a349f2ac50f1bc4c6ceff29e8c39dfb366bbce[m
+Author: hong <hong@sesac.com>
+Date:   Fri Aug 8 20:55:20 2025 +0900
+
+    로그인페이지 구현(페이지 꾸미기는 아직 안함)
+
+[33mcommit 9a21060a41432f98f955cece0e5fbc92d59ba2c3[m
+Author: honggildong <hong@sasac.com>
+Date:   Fri Aug 8 19:54:12 2025 +0900
+
+    0808최종사항
+
+[33mcommit 2a7ba3044adac7756eebd4a78050b8043ac7c848[m
+Author: hong <hong@sesac.com>
+Date:   Fri Aug 8 18:58:39 2025 +0900
+
+    로그인페이지 구현(페이지 꾸미기는 아직 안함)
+
+[33mcommit bb61ffd7a3149e5ad1d01e347619cba8875a62d0[m
+Author: honggildong <hong@sasac.com>
+Date:   Fri Aug 8 17:51:42 2025 +0900
+
+    수정내용
+
+[33mcommit a6705fad1d80b057ff5335a0f949ec60fedad9c4[m
+Merge: 1e2f1fc 06df208
+Author: honggildong <hong@sasac.com>
+Date:   Fri Aug 8 17:49:50 2025 +0900
+
+    수정내용
+
+[33mcommit 1e2f1fc4e37d57d2cf74601b7e4abfa7b5367c7b[m
+Author: honggildong <hong@sasac.com>
+Date:   Fri Aug 8 17:47:09 2025 +0900
+
+    수정내용
+
+[33mcommit 06df208e65be3e5439cbb4c283062f652b6af887[m
+Author: honggildong <hong@sasac.com>
+Date:   Fri Aug 8 17:38:58 2025 +0900
+
+    수정내용
+
+[33mcommit 75b1047a8a79e9d60f8c209b1cef60c8d252a89a[m
+Author: hong <hong@sesac.com>
+Date:   Fri Aug 8 17:18:27 2025 +0900
+
+    로그인페이지 구현(페이지 꾸미기는 아직 안함)
+
+[33mcommit f9b600c82193f43264d91b2ec5c8628c3004ee36[m
+Author: honggildong <hong@sasac.com>
+Date:   Fri Aug 8 16:58:47 2025 +0900
+
+    수정내용
+
+[33mcommit 6426004eca616162514ad8a81a469da18742b75a[m
+Author: hong <hong@sesac.com>
+Date:   Fri Aug 8 16:36:16 2025 +0900
+
+    구글로그인설정중 파이프 인스톨 후 중단
+
+[33mcommit 3c24c64d511ceab3d4d9b83ac13dabe6042af913[m
+Merge: 4512c9e 3086d0f
+Author: honggildong <hong@sasac.com>
+Date:   Fri Aug 8 16:07:11 2025 +0900
+
+    수정내용
+
+[33mcommit 4512c9ead9082c7feffb41a75c7d38436eae7090[m
+Author: honggildong <hong@sasac.com>
+Date:   Fri Aug 8 16:02:36 2025 +0900
+
+    수정내용
+
+[33mcommit 3086d0f46f16bd3d095b4687dedd624ad076919a[m
+Author: hong <hong@sesac.com>
+Date:   Fri Aug 8 15:52:59 2025 +0900
+
+    nav,footer모듈화 및 로그인페이지 생성
+
+[33mcommit 59949be31e5a4ee31dfa0447d764541f6e39f63d[m
+Author: hong <hong@sesac.com>
+Date:   Fri Aug 8 15:47:53 2025 +0900
+
+    nav,footer모듈화 및 로그인페이지 생성
+
+[33mcommit 169758067bf423991099cfa0d9608ce97bbed12a[m
+Merge: 44fc40e f15129a
+Author: honggildong <hong@sasac.com>
+Date:   Fri Aug 8 14:55:49 2025 +0900
+
+    workcontent
+
+[33mcommit 44fc40e2c1c1f7f7097ce7a6e8b31e536f83d62e[m
+Author: honggildong <hong@sasac.com>
+Date:   Fri Aug 8 14:44:33 2025 +0900
+
+    workcontent
+
+[33mcommit f15129a0f406f2300dc88fc0026925fdb3ed060d[m
+Merge: 60f92e9 f118b04
+Author: extremek2 <90878264+extremek2@users.noreply.github.com>
+Date:   Fri Aug 8 14:29:31 2025 +0900
+
+    Merge pull request #1 from extremek2/Eunchong
+    
+    클래스생성
+
+[33mcommit f118b04dab0715debd12c59d3f32c926ed4da51b[m
+Author: hong <hong@sesac.com>
+Date:   Fri Aug 8 14:19:36 2025 +0900
+
+    클래스생성
+
+[33mcommit 60f92e9103623d18684c935256a494de738a12f1[m
+Author: extremek <extremek@naver.com>
+Date:   Fri Aug 8 13:55:03 2025 +0900
+
+    템플릿 초기 세팅
+
+[33mcommit 44350a877153d0c8104ced755fbaf4dad5544a54[m
+Author: extremek <extremek@naver.com>
+Date:   Fri Aug 8 12:08:20 2025 +0900
+
+    장고 프로젝트 생성
+
+[33mcommit 75f9b8a34fccf31cc0c28c7c83b6461c0cb24a24[m
+Author: extremek2 <90878264+extremek2@users.noreply.github.com>
+Date:   Fri Aug 8 11:11:58 2025 +0900
+
+    Initial commit

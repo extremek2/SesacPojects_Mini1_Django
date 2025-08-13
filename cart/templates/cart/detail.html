@@ -161,36 +161,45 @@
 </header>
 
 <body>
-  <h2>🛒 장바구니</h2>
+<h2>🛒 장바구니</h2>
+<table>
+    <thead>
+        <tr>
+            <th>이미지</th>
+            <th>상품명</th>
+            <th>수량</th>
+            <th>가격</th>
+            <th>삭제</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_items %}
+        <tr>
+            <td>
+                {% if item.product.image %}
+                <img src="{{ item.product.image.url }}" width="50">
+                {% else %}
+                (이미지 없음)
+                {% endif %}
+            </td>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.total_price }}원</td>
+            <td>
+                <form method="post" action="{% url 'remove_from_cart' item.id %}">
+                    {% csrf_token %}
+                    <button type="submit">❌ 삭제</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-    <table>
-        <thead>
-            <tr>
-                <th>이미지</th>
-                <th>상품명</th>
-                <th>가격</th>
-                <th>수량</th>
-                <th>합계</th>
-                <th>삭제</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for item in cart_itmes %}
-            <tr>
-                <td><img src="{{ item.image_url }}" alt="상품" class="product-image"></td>
-                <td>{{ item.name }}</td>
-                <td>₩{{ item.price }}</td>
-                <td><input type="number" value="{{ item.quantity }}" min="1"></td>
-                <td>₩{{ item.total_price }}</td>
-                <td><button class="delete-btn">삭제</button></td>
-            </tr>
-            {%  endfor %}
-        </tbody>
-    </table>
+<p><strong>총합:</strong> {{ total }}원</p>
 <!--결제 버튼-->
     <div class="checkout">
-        <p><strong>총 금액: ₩10,000</strong></p>
+
         <button class="checkout-btn" onclick="openPopup()">결제하기</button>
     </div>
 
