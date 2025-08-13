@@ -132,7 +132,7 @@
     const item = document.createElement("li");
     item.className = "list-group-item";
     item.textContent = `${data.name} - ${data.price}원`;
-    {#cartList.innerHTML = ""; // 하나만 담도록 초기화 (여러 개 담으려면 제거)#}
+
     cartList.appendChild(item);
 
     // 폼에 값 채우기
