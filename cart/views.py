@@ -1,5 +1,7 @@
 import item
 from django.shortcuts import render,redirect
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from .models import CartItem,Order,OrderItem
 from django.views.decorators.csrf import csrf_exempt
@@ -15,6 +17,31 @@ def detail(request):
     total=sum(item.total_price() for item in cart_items)
     return render(request, 'cart/detail.html', {'cart_items':cart_items, 'total':total})
 
+@require_POST
+@login_required
+def update_cart_quantity(request):
+    user = request.user
+    item_id = request.POST.get('item_id')
+    quantity = request.POST.get('quantity')
+
+    if not (item_id and quantity):
+        return JsonResponse({'success': False, 'error': '잘못된 요청입니다.'})
+
+    try:
+        quantity = int(quantity)
+        if quantity < 1:
+            raise ValueError
+    except ValueError:
+        return JsonResponse({'success': False, 'error': '수량은 1 이상의 정수여야 합니다.'})
+
+    try:
+        cart_item = CartItem.objects.get(id=item_id, user=user)
+        cart_item.quantity = quantity
+        cart_item.save()
+    except CartItem.DoesNotExist:
+        return JsonResponse({'success': False, 'error': '장바구니 아이템을 찾을 수 없습니다.'})
+
+    return JsonResponse({'success': True, 'quantity': cart_item.quantity})
 
 @login_required
 def cart_delete(request, item_id):

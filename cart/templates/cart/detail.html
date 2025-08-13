@@ -190,8 +190,8 @@
                 <td><img src="{{ item.image_url }}" alt="상품" class="product-image"></td>
                 <td>{{ item.product_name }}</td>
                 <td>₩{{ item.price }}</td>
-                <td><input type="number" value="{{ item.quantity }}" min="1"></td>
-                <td>₩{{ item.total_price }}</td>
+                <td><input type="number" value="{{ item.quantity }}" min="1" data-item-id="{{ item.id }}"></td>
+                 <td class="item-total">₩{{ item.total_price }}</td>
                 <td>
                     <<form method="post" action="{% url 'cart_delete' item.id %}">
                     {% csrf_token %}
@@ -296,15 +296,18 @@
 
         rows.forEach(row => {
             const priceText = row.children[2].innerText.replace("₩", "").replace(",", "");
-            const quantity = parseInt(row.children[3].querySelector('input').value);
+            const quantityInput = row.children[3].querySelector('input');
+            const quantity = parseInt(quantityInput.value);
             const price = parseInt(priceText);
 
-            total += price * quantity;
+            const itemTotal = price * quantity;
+            row.querySelector('.item-total').innerText = `₩${itemTotal.toLocaleString()}`;
+
+            total += itemTotal;
         });
 
         document.getElementById("totalPrice").innerText = `₩${total.toLocaleString()}`;
     }
-
     // 페이지 로드 시 계산 실행
     window.onload = updateTotalPrice;
 
@@ -312,6 +315,37 @@
     document.querySelectorAll('input[type="number"]').forEach(input => {
         input.addEventListener('change', updateTotalPrice);
     });
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+    input.addEventListener('change', function() {
+        let quantity = this.value;
+        if (quantity < 1) {
+            alert('수량은 1 이상이어야 합니다.');
+            this.value = 1;
+            quantity = 1;
+        }
+        // 아이템 id를 데이터 속성으로 지정했다고 가정
+        const itemId = this.dataset.itemId;
+
+        fetch("{% url 'update_cart_quantity' %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: `item_id=${itemId}&quantity=${quantity}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // 수량 변경 성공하면 총 금액 업데이트
+                updateTotalPrice();
+            } else {
+                alert('수량 변경 실패: ' + data.error);
+            }
+        })
+        .catch(() => alert('수량 변경 중 오류가 발생했습니다.'));
+    });
+});
 
 </script>
 
