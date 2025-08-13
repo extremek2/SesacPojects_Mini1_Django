@@ -26,10 +26,18 @@ class Products(models.Model):
     quantity = models.IntegerField()
     uploaded_image = models.ImageField(upload_to='products/', blank=True, null=True)
     def __str__(self):
-        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity} 판매자ID[{self.seller}]'
+        return f'-이름:{self.name} - 가격{self.price} - 수량{self.quantity} 판매자ID[{self.seller}] - 카테고리{self.category}'
                 #  - 판매자{self.seller}
     def get_absolute_url(self):
         return f'/products/{self.pk}/'
+
+class CartItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    def __str__(self):
+        return f'{self.quantity} x {self.product.name} in Order {self.user.name}'
+
 
 
 class Order(models.Model):
@@ -47,6 +55,8 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     def __str__(self):
         return f'{self.quantity} x {self.product.name} in Order {self.order.id}'
+
+
 
 
 class SeasonalProducts(models.Model):

@@ -1,5 +1,6 @@
 from django import forms
-from .models import Order, OrderItem, Products
+from .models import Order, OrderItem, Products, CartItem
+
 
 class OrderItemForm(forms.ModelForm):
     # product = forms.ModelChoiceField(
@@ -11,3 +12,11 @@ class OrderItemForm(forms.ModelForm):
         fields = ['product',
                   'quantity'
                   ]
+
+class CartItemForm(forms.ModelForm):
+    class Meta:
+        model = CartItem
+        fields = ['user',
+                  'product',
+                  'quantity']
+

@@ -1,9 +1,11 @@
+from itertools import product
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import FormView, CreateView
 from django.urls import reverse_lazy
 from django.forms import modelformset_factory
-from .models import SeasonalProducts, Products, Category, Order, OrderItem
-from .forms import OrderItemForm
+from .models import SeasonalProducts, Products, Category, CartItem
+from .forms import CartItemForm
 
 
 def products_index(request):
@@ -39,17 +41,39 @@ def detail(request, pk):
                   context={'product': product,
                            'categories': categories})
 
-class OrderItemCreateView(CreateView):
-    model = OrderItem
-    fields = ['order', 'product', 'quantity'] # Specify the fields to be included in the form
-    template_name = 'your_app/orderitem_form.html' # Path to your template
-    success_url = reverse_lazy('order_detail') # URL to redirect after successful creation (e.g., order detail page)
 
-    # Optional: Override form_valid to handle additional logic, like setting the order
-    def form_valid(self, form):
-        # Example: If the Order is determined by the URL or session
-        # form.instance.order = Order.objects.get(pk=self.kwargs['order_pk'])
-        return super().form_valid(form)
+def create_cart(request):
+
+    product = Products.objects.all()
+    cart_item = CartItem.objects.get_or_create(user=request.user)[0]
+
+    if request.method == "POST":
+        data = request.POST
+        print(data)
+        cartform = CartItemForm(data)
+        if cartform.is_valid():
+            cartform.user = data.user
+            cartform.product = data.product
+            cartform.quantity = data.quantity
+            cartform.save()
+            return redirect('/products/', pk=cartform.cleaned_data['pk'])
+
+
+
+
+
+
+# class OrderItemCreateView(CreateView):
+#     model = OrderItem
+#     fields = ['order', 'product', 'quantity'] # Specify the fields to be included in the form
+#     template_name = 'your_app/orderitem_form.html' # Path to your template
+#     success_url = reverse_lazy('order_detail') # URL to redirect after successful creation (e.g., order detail page)
+#
+#     # Optional: Override form_valid to handle additional logic, like setting the order
+#     def form_valid(self, form):
+#         # Example: If the Order is determined by the URL or session
+#         # form.instance.order = Order.objects.get(pk=self.kwargs['order_pk'])
+#         return super().form_valid(form)
 
 
 # def manage_order_items(request, order_id):
