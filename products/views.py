@@ -1,13 +1,6 @@
-from itertools import product
-
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic.edit import FormView, CreateView
-from django.urls import reverse_lazy
-from django.forms import modelformset_factory
 from .models import SeasonalProducts, Products, Category, CartItem
-from .forms import CartItemForm
-from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -47,26 +40,22 @@ def detail(request, pk):
 
 @csrf_exempt
 def create_cart(request):
-
-
-    cartform = CartItemForm()
     if request.method == "POST":
         import json
+        print("POST")
         data = json.loads(request.body.decode('utf-8'))
+        print(data)
         product_id = data.get("product_id")
         product_name = data.get("product_name")
-        product_quantity = data.get("quantity")
-        print(request.user, product_id, product_name, product_quantity)
+        print(request.user, product_id, product_name)
 
 
-        cartform.user_id = request.user
-        cartform.product_id = product_id
+        user = User.objects.get(username=request.user)
+        product = Products.objects.get(pk=product_id)
 
-        if cartform.is_valid():
-            cartform.save()
-            print("DB 반영 완료")
-        else:
-            print("폼 에러")
+        CartItem.objects.create(user=user,product=product)
+
+
         return redirect('/products/')
         # form = CartItemForm(request.POST)
         # if form.is_valid():
@@ -91,8 +80,8 @@ def create_cart(request):
             #     return redirect('/products/')
         # except json.decoder.JSONDecodeError:
         #     return JsonResponse({'error': 'Invalid JSON'})
-    else:
-        return redirect('/products/')
+    # else:
+    #     return redirect('/products/')
 
 
 

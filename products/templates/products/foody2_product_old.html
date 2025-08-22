@@ -50,7 +50,7 @@
           <!-- 장바구니 드롭존 -->
           <hr class="my-4">
           <div id="cart-dropzone"
-               ondragover="allowDrop(event)"
+               ondragover="event.preventDefault()"
                ondrop="handleDrop(event)"
                class="bg-white p-3 rounded border">
             <h5 class="mb-3">🛒 장바구니</h5>
@@ -65,6 +65,9 @@
               <input type="hidden" name="product_id" id="cart-product-id">
               <input type="hidden" name="product_name" id="cart-product-name">
               <input type="hidden" name="product_price" id="cart-product-price">
+              <input type="number" name="product_qty" id="cart-product-qty" value="1" min="1" max="10" step="1">
+              <button onclick="increaseQuantity()">+</button>
+              <button onclick="decreaseQuantity()">-</button>
               <button type="submit" class="btn btn-success w-100">장바구니에 담기</button>
             </form>
           </div>
@@ -115,8 +118,125 @@
 
 <!-- Drag & Drop Script -->
 <script>
-  {% include "js/add_to_cart.js" %}
+const form = document.getElementById('myForm');
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault(); // 폼 제출 기본 동작 방지
+
+  const formData = new FormData(form);
+  const jsonData = {};
+
+  // FormData 객체를 순회하며 JSON 객체로 변환
+  for (const [key, value] of formData.entries()) {
+    jsonData[key] = value;
+  }
+
+  try {
+    const response = await fetch('/products/cart/create/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(jsonData)
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('성공:', data);
+
+    } else {
+      console.error('요청 실패:', response.status, response.statusText);
+
+    }
+  } catch (error) {
+    console.error('오류 발생:', error);
+  }
+});
+
+
+function allowDrop(event) {
+  event.preventDefault();
+}
+
+
+function handleDragStart(event) {
+    const target = event.currentTarget;
+    const data = {
+      id: target.dataset.id,
+      name: target.dataset.name,
+      price: target.dataset.price,
+      qty: target.dataset.qty
+    };
+    event.dataTransfer.setData("text/plain", JSON.stringify(data));
+  }
+
+function handleDrop(event) {
+  event.preventDefault();
+  const data = JSON.parse(event.dataTransfer.getData("text/plain"));
+
+  // 장바구니 리스트에 표시
+  const cartList = document.getElementById("cart-items");
+  const item = document.createElement("li");
+  item.className = "list-group-item";
+  item.textContent = `${data.name}`;
+  {#cartList.innerHTML = ""; // 하나만 담도록 초기화 (여러 개 담으려면 제거)#}
+  cartList.appendChild(item);
+
+  // 폼에 값 채우기
+  document.getElementById("cart-product-id").value = data.id;
+  document.getElementById("cart-product-name").value = data.name;
+  document.getElementById("cart-product-price").value = data.price;
+  document.getElementById("cart-product-qty").value = data.qty;
+}
 </script>
+<!--function handleDragStart(event) {-->
+<!--  const target = event.currentTarget;-->
+<!--  const data = {-->
+<!--    id: target.dataset.id,-->
+<!--    name: target.dataset.name,-->
+<!--    price: target.dataset.price-->
+<!--    qty: target.dataset.qty-->
+<!--  };-->
+<!--  event.dataTransfer.setData("text/plain", JSON.stringify(data));-->
+<!--  console.log(data)-->
+<!--}-->
+
+<!--function handleDrop(event) {-->
+<!--  event.preventDefault();-->
+<!--  const data = JSON.parse(event.dataTransfer.getData("text/plain"));-->
+
+<!--  // 장바구니 리스트에 표시-->
+<!--  const cartList = document.getElementById("cart-items");-->
+<!--  const item = document.createElement("li");-->
+<!--  item.className = "list-group-item";-->
+<!--  item.textContent = `${data.name}`;-->
+<!--  {#cartList.innerHTML = ""; // 하나만 담도록 초기화 (여러 개 담으려면 제거)#}-->
+<!--  cartList.appendChild(item);-->
+
+
+
+<!--  // 폼에 값 채우기-->
+<!--  document.getElementById("cart-product-id").value = data.id;-->
+<!--  document.getElementById("cart-product-name").value = data.name;-->
+<!--  document.getElementById("cart-product-price").value = data.price;-->
+<!--  document.getElementById("cart-product-qty").value = data.qty;-->
+<!--}-->
+
+<!--&lt;!&ndash;function increaseQuantity() {&ndash;&gt;-->
+<!--&lt;!&ndash;  let quantityInput = document.getElementById("cart-product-qty");&ndash;&gt;-->
+<!--&lt;!&ndash;  quantityInput.value = parseInt(quantityInput.value) + 1;&ndash;&gt;-->
+<!--&lt;!&ndash;}&ndash;&gt;-->
+
+<!--&lt;!&ndash;function decreaseQuantity() {&ndash;&gt;-->
+<!--&lt;!&ndash;  let quantityInput = document.getElementById("cart-product-qty");&ndash;&gt;-->
+<!--&lt;!&ndash;  let currentValue = parseInt(quantityInput.value);&ndash;&gt;-->
+<!--&lt;!&ndash;  if (currentValue > 1) {&ndash;&gt;-->
+<!--&lt;!&ndash;    quantityInput.value = currentValue - 1;&ndash;&gt;-->
+<!--&lt;!&ndash;  }&ndash;&gt;-->
+<!--&lt;!&ndash;}&ndash;&gt;-->
+
+
+<!--</script>-->
 
 
 {% endblock %}

@@ -12,11 +12,3 @@ class OrderItemForm(forms.ModelForm):
         fields = ['product',
                   'quantity'
                   ]
-
-class CartItemForm(forms.ModelForm):
-    class Meta:
-        model = CartItem
-        fields = ['user',
-                  'product',
-                  'quantity']
-
